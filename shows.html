@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>音楽番組の仕組み | MOA PLAYBOOK</title>
+<style>
+
+@import url('https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800;900&family=Zen+Kaku+Gothic+New:wght@400;500;700;900&family=JetBrains+Mono:wght@400;500;600&display=swap');
+:root{
+  --paper:#D6EBF2;
+  --paper-2:#EFF8FB;
+  --ink:#1C2B45;
+  --ink-soft:#56708A;
+  --coral:#FF4565;
+  --coral-deep:#D72F4C;
+  --ice:#8FD9E8;
+  --ice-mid:#5DC4D8;
+  --ice-deep:#3FA9C0;
+  --navy:#1C2B45;
+  --gold:#D6A13C;
+  --violet:#8C6FB0;
+  --broadcast:#3D5A82;
+  --line:#B8D8E3;
+  --line-soft:#CEEAF2;
+  --frost:rgba(255,255,255,.55);
+  --frost-strong:rgba(255,255,255,.76);
+  --fb:rgba(255,255,255,.82);
+  --maxw:1080px;
+}
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  margin:0;color:var(--ink);
+  font-family:'Zen Kaku Gothic New',sans-serif;
+  font-size:15px;line-height:1.75;-webkit-font-smoothing:antialiased;
+  background:
+    radial-gradient(65% 55% at 10% 0%,rgba(220,242,250,.9) 0%,rgba(220,242,250,0) 100%),
+    radial-gradient(70% 60% at 100% 12%,rgba(200,235,245,.8) 0%,rgba(200,235,245,0) 100%),
+    var(--paper);
+  background-attachment:fixed;
+}
+h1,h2,h3,h4,h5{margin:0;font-family:'Zen Kaku Gothic New',sans-serif;font-weight:900;letter-spacing:.01em;}
+p{margin:0 0 .9em;}
+a{color:var(--coral-deep);}
+.display{font-family:'Big Shoulders Display',sans-serif;font-weight:900;}
+.mono{font-family:'JetBrains Mono',monospace;}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 24px;}
+
+/* topbar */
+.topbar{
+  position:sticky;top:0;z-index:80;
+  background:rgba(214,235,242,.88);
+  -webkit-backdrop-filter:blur(14px) saturate(160%);
+  backdrop-filter:blur(14px) saturate(160%);
+  border-bottom:1px solid var(--line);
+}
+.topbar-inner{
+  max-width:var(--maxw);margin:0 auto;padding:0 24px;
+  display:flex;align-items:center;gap:0;height:54px;
+}
+.brand{
+  font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:17px;
+  color:var(--ink);text-decoration:none;flex-shrink:0;margin-right:18px;
+  letter-spacing:.01em;
+}
+.brand em{color:var(--coral);font-style:normal;}
+nav.sitenav{display:flex;gap:0;overflow-x:auto;scrollbar-width:none;flex:1;}
+nav.sitenav::-webkit-scrollbar{display:none;}
+nav.sitenav a{
+  flex:none;white-space:nowrap;
+  font-size:12.5px;font-weight:700;color:var(--ink-soft);
+  text-decoration:none;padding:0 13px;height:54px;
+  display:inline-flex;align-items:center;
+  border-bottom:3px solid transparent;
+  transition:color .15s,border-color .15s;
+}
+nav.sitenav a:hover,nav.sitenav a.active{color:var(--ink);border-bottom-color:var(--ice-mid);}
+nav.sitenav a.accent{color:var(--coral-deep);}
+nav.sitenav a.accent:hover{border-bottom-color:var(--coral);}
+
+/* sections */
+section{padding:56px 0;border-bottom:1px solid var(--line);}
+section:last-of-type{border-bottom:none;}
+.sh{margin-bottom:28px;}
+.sh .eyebrow{
+  display:block;font-size:11px;font-weight:700;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--ice-deep);margin-bottom:8px;
+  font-family:'JetBrains Mono',monospace;
+}
+.sh h2{font-size:clamp(22px,3.8vw,30px);}
+.sh p{color:var(--ink-soft);margin-top:10px;font-size:14px;}
+
+/* frost card */
+.card{
+  background:var(--frost);
+  -webkit-backdrop-filter:blur(18px) saturate(160%);
+  backdrop-filter:blur(18px) saturate(160%);
+  border:1px solid rgba(255,255,255,.82);
+  box-shadow:0 8px 32px -12px rgba(28,69,90,.18);
+}
+
+/* button styles */
+.btn{
+  display:inline-flex;align-items:center;gap:8px;
+  font-family:'Big Shoulders Display',sans-serif;font-weight:800;
+  font-size:15px;letter-spacing:.04em;text-decoration:none;
+  padding:12px 22px;transition:opacity .15s,transform .1s;cursor:pointer;
+}
+.btn:active{transform:scale(.97);}
+.btn-primary{background:var(--ink);color:#fff;}
+.btn-primary:hover{opacity:.87;}
+.btn-ice{background:var(--ice-deep);color:#fff;}
+.btn-ice:hover{opacity:.87;}
+.btn-outline{background:transparent;color:var(--ink);border:1.5px solid var(--ink);}
+.btn-outline:hover{background:var(--ink);color:#fff;}
+
+/* footer */
+footer{padding:36px 0 64px;border-top:1px solid var(--line);}
+footer p{font-size:11.5px;color:var(--ink-soft);}
+
+/* back to top */
+.btt{
+  position:fixed;right:18px;bottom:18px;z-index:60;
+  width:42px;height:42px;border-radius:50%;
+  background:var(--ink);color:#fff;
+  display:flex;align-items:center;justify-content:center;
+  border:none;cursor:pointer;font-size:16px;
+  opacity:0;pointer-events:none;transition:opacity .25s;
+}
+.btt.show{opacity:1;pointer-events:auto;}
+
+
+.legend{display:flex;flex-wrap:wrap;gap:14px 22px;margin:0 0 28px;font-size:12.5px;color:var(--ink-soft);}
+.legend span{display:inline-flex;align-items:center;gap:7px;}
+.legend i{width:11px;height:11px;border-radius:2px;display:inline-block;}
+.donutgrid{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+@media(max-width:720px){.donutgrid{grid-template-columns:1fr;}}
+.donutcard{padding:20px 22px;display:flex;gap:18px;align-items:center;}
+.donutcard.full{grid-column:1/-1;}
+.donut{position:relative;width:110px;height:110px;border-radius:50%;flex-shrink:0;opacity:0;transform:scale(.86);transition:opacity .7s ease,transform .7s ease;}
+.donut.visible{opacity:1;transform:scale(1);}
+.donut::after{content:"";position:absolute;inset:21%;border-radius:50%;background:rgba(255,255,255,.72);}
+.donutlabel{position:absolute;inset:21%;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:1;}
+.donutlabel .pct{font-family:'Big Shoulders Display',sans-serif;font-size:20px;font-weight:900;color:var(--ink);line-height:1;}
+.donutlabel .pctlbl{font-size:8px;color:var(--ink-soft);margin-top:2px;font-family:'JetBrains Mono',monospace;}
+.donutinfo{flex:1;min-width:0;}
+.name-en{font-family:'Big Shoulders Display',sans-serif;font-size:20px;font-weight:900;line-height:1;}
+.name-jp{font-size:12px;color:var(--ink-soft);margin-top:2px;}
+.breaklist{list-style:none;margin:10px 0 0;padding:0;font-size:12px;color:var(--ink-soft);}
+.breaklist li{display:flex;justify-content:space-between;padding:2.5px 0;border-bottom:1px dashed rgba(184,216,227,.6);}
+.breaklist li:last-child{border-bottom:none;}
+.breaklist .num{color:var(--ink);font-weight:700;font-family:'JetBrains Mono',monospace;}
+.scorenote{font-size:11px;color:var(--ink-soft);margin-top:8px;padding-top:8px;border-top:1px solid rgba(184,216,227,.5);}
+.common-callout{margin-top:22px;padding:18px 22px;background:var(--ink);color:#fff;}
+.common-callout .eyebrow{font-family:'JetBrains Mono',monospace;font-size:10.5px;color:var(--ice);letter-spacing:.12em;font-weight:700;text-transform:uppercase;}
+.common-callout p{margin:8px 0 0;font-size:13.5px;color:#D8DCE8;}
+.common-callout ul{margin:10px 0 0;padding-left:18px;font-size:13px;color:#D8DCE8;}
+.tablewrap{overflow-x:auto;border:1px solid var(--line);}
+table.matrix{width:100%;border-collapse:collapse;font-size:13px;min-width:600px;}
+table.matrix th,table.matrix td{padding:10px 12px;text-align:center;border-bottom:1px solid var(--line);}
+table.matrix th{font-family:'JetBrains Mono',monospace;font-size:10.5px;background:var(--ink);color:#fff;font-weight:600;}
+table.matrix td:first-child,table.matrix th:first-child{text-align:left;font-weight:700;background:rgba(230,245,250,.6);position:sticky;left:0;}
+table.matrix tbody tr:last-child td{border-bottom:none;}
+table.matrix tr.split td{border-top:2px solid var(--ink);}
+.ok,.ng{display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;border-radius:50%;font-size:11px;font-weight:800;}
+.ok{background:var(--coral);color:#fff;}
+.ng{border:1.5px solid var(--line);color:var(--line);}
+.cyclewrap{display:flex;align-items:flex-start;overflow-x:auto;padding-bottom:10px;}
+.cyclestep{flex:1 0 140px;min-width:140px;position:relative;padding:0 12px 0 0;}
+.cyclestep .num{font-family:'Big Shoulders Display',sans-serif;font-size:28px;color:var(--line);font-weight:900;}
+.cyclestep h4{font-size:13px;margin-top:2px;}
+.cyclestep p{font-size:12px;color:var(--ink-soft);margin-top:5px;}
+.cyclestep::after{content:"→";position:absolute;right:-4px;top:5px;color:var(--line);font-size:16px;}
+.cyclestep:last-child::after{content:"";}
+.order-strip{margin-top:16px;display:flex;flex-wrap:wrap;gap:8px;align-items:center;}
+.order-strip .chip{border:1px solid var(--ink);padding:5px 11px;font-weight:700;font-size:11.5px;}
+.order-strip .arrow{color:var(--ink-soft);}
+.glossgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
+@media(max-width:720px){.glossgrid{grid-template-columns:repeat(2,1fr);}}
+@media(max-width:480px){.glossgrid{grid-template-columns:1fr;}}
+.gloss{padding:13px 15px;}
+.gloss .term{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;color:var(--coral-deep);}
+.gloss p{font-size:12.5px;color:var(--ink-soft);margin:5px 0 0;}
+.infobox{border-left:3px solid var(--gold);background:var(--frost);padding:14px 18px;margin-top:18px;font-size:13px;}
+.infobox h4{font-size:11.5px;text-transform:uppercase;letter-spacing:.06em;color:var(--gold);margin-bottom:6px;font-family:'JetBrains Mono',monospace;}
+
+</style>
+</head>
+<body>
+
+<header class="topbar">
+<div class="topbar-inner">
+  <a class="brand" href="?">COMEBACK<em>●</em>GUIDE</a>
+  <nav class="sitenav">
+<a href="?">← トップ</a>
+<a href="?page=shows#scores">スコア構成</a>
+<a href="?page=shows#matrix">有効スミン表</a>
+<a href="?page=shows#cycle">集計サイクル</a>
+<a href="?page=shows#glossary">用語集</a>
+<a href="?page=streaming">スミンガイド</a>
+</nav>
+</div>
+</header>
+
+
+<section id="scores">
+<div class="wrap">
+  <div class="sh">
+    <span class="eyebrow">Chapter 01</span>
+    <h2>番組別スコア構成</h2>
+    <p>毎週月〜日のデータを集計し、翌週の番組内で1位を発表。各項目は基本的に相対評価(1位が満点、それ以外は1位との差で点数が決まる)。2026年4月時点、DL/スミン比率は一部推測を含む。</p>
+  </div>
+  <div class="legend">
+    <span><i style="background:var(--coral)"></i>音源</span>
+    <span><i style="background:var(--broadcast)"></i>放送点数</span>
+    <span><i style="background:var(--gold)"></i>投票</span>
+    <span><i style="background:var(--ice-mid)"></i>音盤</span>
+    <span><i style="background:var(--violet)"></i>SNS/動画</span>
+  </div>
+  <div class="donutgrid">
+    <div class="donutcard card">
+      <div class="donut" style="background:conic-gradient(var(--coral) 0 35%,var(--broadcast) 35% 55%,var(--gold) 55% 75%,var(--ice-mid) 75% 90%,var(--violet) 90% 100%);">
+        
+      </div>
+      <div class="donutinfo">
+        <div class="name-en">SHOW CHAMPION</div><div class="name-jp">ショーチャン</div>
+        <ul class="breaklist">
+          <li>音源<span class="num">35%</span></li><li>放送点数<span class="num">20%</span></li>
+          <li>事前投票<span class="num">20%</span></li><li>音盤(ハント)<span class="num">15%</span></li>
+          <li>SNS<span class="num">10%</span></li>
+        </ul>
+        <div class="scorenote">Bugs DL80:ST20 / Melon DL60:ST40 / genie DL50:ST50 / FLO ST100</div>
+      </div>
+    </div>
+    <div class="donutcard card">
+      <div class="donut" style="background:conic-gradient(var(--coral) 0 45.5%,var(--broadcast) 45.5% 54.5%,var(--gold) 54.5% 72.7%,var(--ice-mid) 72.7% 86.4%,var(--violet) 86.4% 100%);">
+        
+      </div>
+      <div class="donutinfo">
+        <div class="name-en">M COUNTDOWN</div><div class="name-jp">エムカ</div>
+        <ul class="breaklist">
+          <li>音源<span class="num">50%</span></li><li>放送点数<span class="num">10%</span></li>
+          <li>投票計<span class="num">20%</span></li><li>音盤(サークル)<span class="num">15%</span></li>
+          <li>SNS<span class="num">15%</span></li>
+        </ul>
+        <div class="scorenote">Apple/Spotify/YTMusic ST100 / Melon60:40 / genie50:50 / FLO ST100 / Bugs80:20<br>タイトル曲/先行リリースのみ・B-side不可</div>
+      </div>
+    </div>
+    <div class="donutcard card">
+      <div class="donut" style="background:conic-gradient(var(--coral) 0 60%,var(--broadcast) 60% 80%,var(--gold) 80% 90%,var(--ice-mid) 90% 95%,var(--violet) 95% 100%);">
+        
+      </div>
+      <div class="donutinfo">
+        <div class="name-en">MUSIC BANK</div><div class="name-jp">ミューバン</div>
+        <ul class="breaklist">
+          <li>音源<span class="num">60%</span></li><li>放送点数<span class="num">20%</span></li>
+          <li>事前投票(相対評価)<span class="num">10%</span></li><li>音盤(サークル)<span class="num">5%</span></li>
+          <li>SNS<span class="num">5%</span></li>
+        </ul>
+        <div class="scorenote">唯一の点数分配方式。B-sideノミネート可。</div>
+      </div>
+    </div>
+    <div class="donutcard card">
+      <div class="donut" style="background:conic-gradient(var(--coral) 0 50%,var(--broadcast) 50% 60%,var(--gold) 60% 80%,var(--ice-mid) 80% 90%,var(--violet) 90% 100%);">
+        
+      </div>
+      <div class="donutinfo">
+        <div class="name-en">MUSIC CORE</div><div class="name-jp">ウマチュン</div>
+        <ul class="breaklist">
+          <li>音源<span class="num">50%</span></li><li>放送点数<span class="num">10%</span></li>
+          <li>投票4種計<span class="num">20%</span></li><li>音盤(サークル)<span class="num">10%</span></li>
+          <li>動画<span class="num">10%</span></li>
+        </ul>
+        <div class="scorenote">リリースから2ヶ月以内のみ対象。B-side不可。</div>
+      </div>
+    </div>
+    <div class="donutcard card full">
+      <div class="donut" style="background:conic-gradient(var(--coral) 0 50%,var(--broadcast) 50% 60%,var(--gold) 60% 70%,var(--ice-mid) 70% 80%,var(--violet) 80% 100%);">
+        
+      </div>
+      <div class="donutinfo">
+        <div class="name-en">INKIGAYO</div><div class="name-jp">インガ</div>
+        <ul class="breaklist">
+          <li>音源<span class="num">50%</span></li><li>放送点数<span class="num">10%</span></li>
+          <li>投票計<span class="num">10%</span></li><li>音盤(サークル)<span class="num">10%</span></li>
+          <li>SNS<span class="num">20%</span></li>
+        </ul>
+        <div class="scorenote">韓国音源が二重カウント(グローバル+国内)。B-sideノミネート可。CIRCLE GLOBAL K-POP CHART + Melon60:40 / genie50:50 / FLO ST100 / Apple/Spotify/YTMusic ST100</div>
+      </div>
+    </div>
+  </div>
+  <div class="common-callout">
+    <span class="eyebrow">共通点</span>
+    <p>5番組すべてで「音源」が最大かつ最重要のスコア項目(35〜60%)。最重要項目に貢献する手段:</p>
+    <ul>
+      <li>自身での音源ストリーミング</li>
+      <li>韓国音源チームへの寄付・有志の寄付企画への参加(@txtdigitals / @MOAVERSE_Time)</li>
+      <li>DUCKADアプリの活用</li>
+      <li>音盤購入・MVミュス・投票も忘れずに</li>
+    </ul>
+  </div>
+</div>
+</section>
+
+<section id="matrix">
+<div class="wrap">
+  <div class="sh">
+    <span class="eyebrow">Chapter 02</span>
+    <h2>成績別・有効スミン早見表</h2>
+    <p>同じ「スミン」でも、効くサービスは届けたい成績によって変わります。CD売上・DL数・投票も別途重要。</p>
+  </div>
+  <div class="tablewrap">
+    <table class="matrix">
+      <thead><tr><th>番組／チャート</th><th>Melon・genie・Bugs・FLO等</th><th>Spotify・Apple Music・YTMusic</th><th>LINE MUSIC</th><th>YouTube</th></tr></thead>
+      <tbody>
+        <tr><td>INKIGAYO(インガ)</td><td><span class="ok">✓</span></td><td><span class="ok">✓</span></td><td><span class="ng">✕</span></td><td><span class="ok">✓</span></td></tr>
+        <tr><td>Music Core(ウマチュン)</td><td><span class="ok">✓</span></td><td><span class="ng">✕</span></td><td><span class="ng">✕</span></td><td><span class="ok">✓</span></td></tr>
+        <tr><td>M COUNTDOWN(エムカ)</td><td><span class="ok">✓</span></td><td><span class="ok">✓</span></td><td><span class="ng">✕</span></td><td><span class="ok">✓</span></td></tr>
+        <tr><td>Music Bank(ミューバン)</td><td><span class="ok">✓</span></td><td><span class="ng">✕</span></td><td><span class="ng">✕</span></td><td><span class="ok">✓</span></td></tr>
+        <tr><td>SHOW CHAMPION(ショーチャン)</td><td><span class="ok">✓</span></td><td><span class="ng">✕</span></td><td><span class="ng">✕</span></td><td><span class="ok">✓</span></td></tr>
+        <tr class="split"><td>Billboard JAPAN Hot100</td><td><span class="ng">✕</span></td><td><span class="ok">✓</span></td><td><span class="ok">✓</span></td><td><span class="ok">✓</span></td></tr>
+        <tr><td>ORICON合算ランキング</td><td><span class="ng">✕</span></td><td><span class="ok">✓</span></td><td><span class="ok">✓</span></td><td><span class="ok">✓</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+</section>
+
+<section id="cycle">
+<div class="wrap">
+  <div class="sh">
+    <span class="eyebrow">Chapter 03</span>
+    <h2>集計サイクルと1位決定戦</h2>
+    <p>カムバ翌週から1位獲得が可能。常に「今どの週の集計か」を意識して応援を。</p>
+  </div>
+  <div class="cyclewrap">
+    <div class="cyclestep"><span class="num">01</span><h4>月曜カムバ</h4><p>その週が集計期間1週目スタート</p></div>
+    <div class="cyclestep"><span class="num">02</span><h4>集計期間2週目</h4><p>引き続き月〜日でデータ集計</p></div>
+    <div class="cyclestep"><span class="num">03</span><h4>水曜頃に発表</h4><p>1位決定戦1週目・各番組で結果発表</p></div>
+    <div class="cyclestep"><span class="num">04</span><h4>毎週繰り返し</h4><p>2週分貯めた投票は決定戦のタイミングで使用が効果的</p></div>
+  </div>
+  <div class="order-strip">
+    <span class="chip">SHOW CHAMPION</span><span class="arrow">→</span>
+    <span class="chip">M COUNTDOWN</span><span class="arrow">→</span>
+    <span class="chip">Music Bank</span><span class="arrow">→</span>
+    <span class="chip">Music Core</span><span class="arrow">→</span>
+    <span class="chip">INKIGAYO</span>
+  </div>
+  <div class="infobox">
+    <h4>相対評価のしくみ</h4>
+    各項目は1位が満点を獲得し、それ以外は「1位との差」で点数が決まる。例: MV再生1,000万回・ライバルが500万回なら満点獲得、ライバルが2,000万回(倍)なら獲得点は満点の半分。ミューバンのみ点数分配方式(持ち点を売上順位で分配)を採用。
+  </div>
+</div>
+</section>
+
+<section id="glossary">
+<div class="wrap">
+  <div class="sh">
+    <span class="eyebrow">Chapter 04</span>
+    <h2>これだけは覚えたい用語集</h2>
+  </div>
+  <div class="glossgrid">
+    <div class="gloss card"><div class="term">スミン(ST)</div><p>ストリーミングの略。音源スミンとMVスミンがある。</p></div>
+    <div class="gloss card"><div class="term">ミュス(MV)</div><p>MVストリーミングの略。再生数は音源ではなくSNS点数扱い。</p></div>
+    <div class="gloss card"><div class="term">音源成績</div><p>各サブスクの再生数ランキング・チャート成績。MV再生は含まない。</p></div>
+    <div class="gloss card"><div class="term">デジタル</div><p>ストリーミング+DLの総称。音源とほぼ同義で使われる。</p></div>
+    <div class="gloss card"><div class="term">サブスク</div><p>月額課金サービス。Spotify・Apple Music・YouTube等。</p></div>
+    <div class="gloss card"><div class="term">DL(ダウンロード)</div><p>音源購入。チャート上昇の鍵を握る重要指標。</p></div>
+    <div class="gloss card"><div class="term">フィジカル(音盤)</div><p>CD等の実物。アルバム販売数が「音盤成績」として反映。</p></div>
+    <div class="gloss card"><div class="term">韓国音源 / グローバル音源</div><p>韓国=Melon・genie・FLO・Bugs・VIBE。グローバル=Spotify・Apple Music。</p></div>
+    <div class="gloss card"><div class="term">CIRCLE / Billboard / ORICON</div><p>CIRCLE=韓国版指標。Billboard Global200=DL+ST集計。ORICON=CD+DL+STの日本独自総合。</p></div>
+  </div>
+</div>
+</section>
+
+<script>
+const donuts=document.querySelectorAll('.donut');
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target);}});
+},{threshold:0.3});
+donuts.forEach(d=>obs.observe(d));
+</script>
+
+
+<footer>
+<div class="wrap">
+
+<p style="margin-top:14px;">本ページは ACT: STREAMING PROJECT TEAM の資料をもとに、個人の参照用として整理したものです。最新情報は必ず公式をご確認ください。</p>
+</div>
+</footer>
+<button class="btt" id="btt" aria-label="ページ上部へ戻る">↑</button>
+<script>
+const btt=document.getElementById('btt');
+window.addEventListener('scroll',()=>btt.classList.toggle('show',scrollY>500));
+btt.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
+// nav active
+const navLinks=[...document.querySelectorAll('.sitenav a')];
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    const link=document.querySelector('.sitenav a[href="#'+e.target.id+'"]');
+    if(link){navLinks.forEach(l=>l.classList.remove('active'));if(e.isIntersecting)link.classList.add('active');}
+  });
+},{rootMargin:'-40% 0px -50% 0px'});
+document.querySelectorAll('section[id]').forEach(s=>obs.observe(s));
+</script>
+
+</body>
+</html>

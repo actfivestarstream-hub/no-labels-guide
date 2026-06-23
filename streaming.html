@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>ストリーミング準備ガイド | MOA PLAYBOOK</title>
+<style>
+
+@import url('https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800;900&family=Zen+Kaku+Gothic+New:wght@400;500;700;900&family=JetBrains+Mono:wght@400;500;600&display=swap');
+:root{
+  --paper:#D6EBF2;
+  --paper-2:#EFF8FB;
+  --ink:#1C2B45;
+  --ink-soft:#56708A;
+  --coral:#FF4565;
+  --coral-deep:#D72F4C;
+  --ice:#8FD9E8;
+  --ice-mid:#5DC4D8;
+  --ice-deep:#3FA9C0;
+  --navy:#1C2B45;
+  --gold:#D6A13C;
+  --violet:#8C6FB0;
+  --broadcast:#3D5A82;
+  --line:#B8D8E3;
+  --line-soft:#CEEAF2;
+  --frost:rgba(255,255,255,.55);
+  --frost-strong:rgba(255,255,255,.76);
+  --fb:rgba(255,255,255,.82);
+  --maxw:1080px;
+}
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  margin:0;color:var(--ink);
+  font-family:'Zen Kaku Gothic New',sans-serif;
+  font-size:15px;line-height:1.75;-webkit-font-smoothing:antialiased;
+  background:
+    radial-gradient(65% 55% at 10% 0%,rgba(220,242,250,.9) 0%,rgba(220,242,250,0) 100%),
+    radial-gradient(70% 60% at 100% 12%,rgba(200,235,245,.8) 0%,rgba(200,235,245,0) 100%),
+    var(--paper);
+  background-attachment:fixed;
+}
+h1,h2,h3,h4,h5{margin:0;font-family:'Zen Kaku Gothic New',sans-serif;font-weight:900;letter-spacing:.01em;}
+p{margin:0 0 .9em;}
+a{color:var(--coral-deep);}
+.display{font-family:'Big Shoulders Display',sans-serif;font-weight:900;}
+.mono{font-family:'JetBrains Mono',monospace;}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 24px;}
+
+/* topbar */
+.topbar{
+  position:sticky;top:0;z-index:80;
+  background:rgba(214,235,242,.88);
+  -webkit-backdrop-filter:blur(14px) saturate(160%);
+  backdrop-filter:blur(14px) saturate(160%);
+  border-bottom:1px solid var(--line);
+}
+.topbar-inner{
+  max-width:var(--maxw);margin:0 auto;padding:0 24px;
+  display:flex;align-items:center;gap:0;height:54px;
+}
+.brand{
+  font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:17px;
+  color:var(--ink);text-decoration:none;flex-shrink:0;margin-right:18px;
+  letter-spacing:.01em;
+}
+.brand em{color:var(--coral);font-style:normal;}
+nav.sitenav{display:flex;gap:0;overflow-x:auto;scrollbar-width:none;flex:1;}
+nav.sitenav::-webkit-scrollbar{display:none;}
+nav.sitenav a{
+  flex:none;white-space:nowrap;
+  font-size:12.5px;font-weight:700;color:var(--ink-soft);
+  text-decoration:none;padding:0 13px;height:54px;
+  display:inline-flex;align-items:center;
+  border-bottom:3px solid transparent;
+  transition:color .15s,border-color .15s;
+}
+nav.sitenav a:hover,nav.sitenav a.active{color:var(--ink);border-bottom-color:var(--ice-mid);}
+nav.sitenav a.accent{color:var(--coral-deep);}
+nav.sitenav a.accent:hover{border-bottom-color:var(--coral);}
+
+/* sections */
+section{padding:56px 0;border-bottom:1px solid var(--line);}
+section:last-of-type{border-bottom:none;}
+.sh{margin-bottom:28px;}
+.sh .eyebrow{
+  display:block;font-size:11px;font-weight:700;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--ice-deep);margin-bottom:8px;
+  font-family:'JetBrains Mono',monospace;
+}
+.sh h2{font-size:clamp(22px,3.8vw,30px);}
+.sh p{color:var(--ink-soft);margin-top:10px;font-size:14px;}
+
+/* frost card */
+.card{
+  background:var(--frost);
+  -webkit-backdrop-filter:blur(18px) saturate(160%);
+  backdrop-filter:blur(18px) saturate(160%);
+  border:1px solid rgba(255,255,255,.82);
+  box-shadow:0 8px 32px -12px rgba(28,69,90,.18);
+}
+
+/* button styles */
+.btn{
+  display:inline-flex;align-items:center;gap:8px;
+  font-family:'Big Shoulders Display',sans-serif;font-weight:800;
+  font-size:15px;letter-spacing:.04em;text-decoration:none;
+  padding:12px 22px;transition:opacity .15s,transform .1s;cursor:pointer;
+}
+.btn:active{transform:scale(.97);}
+.btn-primary{background:var(--ink);color:#fff;}
+.btn-primary:hover{opacity:.87;}
+.btn-ice{background:var(--ice-deep);color:#fff;}
+.btn-ice:hover{opacity:.87;}
+.btn-outline{background:transparent;color:var(--ink);border:1.5px solid var(--ink);}
+.btn-outline:hover{background:var(--ink);color:#fff;}
+
+/* footer */
+footer{padding:36px 0 64px;border-top:1px solid var(--line);}
+footer p{font-size:11.5px;color:var(--ink-soft);}
+
+/* back to top */
+.btt{
+  position:fixed;right:18px;bottom:18px;z-index:60;
+  width:42px;height:42px;border-radius:50%;
+  background:var(--ink);color:#fff;
+  display:flex;align-items:center;justify-content:center;
+  border:none;cursor:pointer;font-size:16px;
+  opacity:0;pointer-events:none;transition:opacity .25s;
+}
+.btt.show{opacity:1;pointer-events:auto;}
+
+
+.tabbar{display:flex;gap:0;border-bottom:2px solid var(--line);margin-bottom:28px;overflow-x:auto;scrollbar-width:none;}
+.tabbar::-webkit-scrollbar{display:none;}
+.tabbar button{
+  flex:none;font-family:'Zen Kaku Gothic New',sans-serif;font-weight:700;
+  font-size:13.5px;background:none;border:none;padding:12px 18px;
+  cursor:pointer;color:var(--ink-soft);
+  border-bottom:3px solid transparent;margin-bottom:-2px;white-space:nowrap;
+}
+.tabbar button[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--coral);}
+.tabpanel{display:none;}
+.tabpanel.active{display:block;}
+.guide-cols{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:20px;}
+@media(max-width:680px){.guide-cols{grid-template-columns:1fr;}}
+.guide-block h4{font-size:12.5px;color:var(--ice-deep);letter-spacing:.06em;text-transform:uppercase;margin-bottom:10px;font-family:'JetBrains Mono',monospace;}
+.guide-block ul{margin:0;padding-left:18px;}
+.guide-block li{margin-bottom:6px;font-size:13.5px;}
+.dodont{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:4px;}
+@media(max-width:520px){.dodont{grid-template-columns:1fr;}}
+.dobox,.dontbox{padding:14px 16px;font-size:12.5px;}
+.dobox{background:rgba(143,217,232,.18);border:1px solid var(--ice-mid);}
+.dontbox{background:rgba(255,69,101,.08);border:1px solid rgba(255,69,101,.3);}
+.dobox h5,.dontbox h5{font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;margin:0 0 8px;}
+.dobox h5{color:var(--ice-deep);}
+.dontbox h5{color:var(--coral-deep);}
+.infobox{border-left:3px solid var(--gold);background:var(--frost);padding:14px 18px;margin-top:18px;font-size:13px;}
+.infobox h4{font-size:11.5px;text-transform:uppercase;letter-spacing:.06em;color:var(--gold);margin-bottom:6px;font-family:'JetBrains Mono',monospace;}
+.trialgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
+@media(max-width:720px){.trialgrid{grid-template-columns:1fr;}}
+.trialcard{padding:16px 18px;}
+.trialcard h4{font-size:14px;margin-bottom:6px;}
+.trialcard .price{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--ink-soft);margin-bottom:10px;}
+.trialcard ul{margin:0;padding-left:16px;font-size:12px;color:var(--ink-soft);}
+.trialcard li{margin-bottom:5px;}
+
+</style>
+</head>
+<body>
+
+<header class="topbar">
+<div class="topbar-inner">
+  <a class="brand" href="?">COMEBACK<em>●</em>GUIDE</a>
+  <nav class="sitenav">
+<a href="?">← トップ</a>
+<a href="?page=streaming#spotify">Spotify</a>
+<a href="?page=streaming#apple">Apple Music</a>
+<a href="?page=streaming#youtube">YouTube</a>
+<a href="?page=streaming#itunes">iTunes DL</a>
+<a href="?page=streaming#trial">無料体験</a>
+<a href="?page=shows">番組の仕組み</a>
+</nav>
+</div>
+</header>
+
+
+<section id="spotify">
+<div class="wrap">
+  <div class="sh">
+    <span class="eyebrow">Streaming Guide</span>
+    <h2>ストリーミング準備ガイド</h2>
+    <p>サービスごとに効果的なスミンの作法が異なります。タブで切り替えて確認してください。</p>
+  </div>
+  <div class="tabbar" role="tablist">
+    <button role="tab" aria-selected="true" aria-controls="pnl-spotify" id="tab-spotify">🎵 Spotify</button>
+    <button role="tab" aria-selected="false" aria-controls="pnl-apple" id="tab-apple">🍎 Apple Music</button>
+    <button role="tab" aria-selected="false" aria-controls="pnl-youtube" id="tab-youtube">▶ YouTube</button>
+    <button role="tab" aria-selected="false" aria-controls="pnl-itunes" id="tab-itunes">⬇ iTunes DL</button>
+  </div>
+
+  <div class="tabpanel active" id="pnl-spotify">
+    <div class="guide-cols">
+      <div class="guide-block"><h4>基本</h4><ul>
+        <li>Premium推奨(無料も反映されるが有料の方が反映率高い)</li>
+        <li>必ずTXTをフォロー(おすすめ表示が強化される)</li>
+        <li>「+」でお気に入り追加/曲URLのシェア=バイラルシェア</li>
+        <li>Free会員はPC・タブレットがあればシャッフルなしで再生可</li>
+        <li>無料アカウントを複数作成してPC複数画面で同時スミンOK</li>
+      </ul></div>
+      <div class="guide-block"><h4>プレイリスト作成</h4><ul>
+        <li>Premium向け: タイトル曲の間に2〜3曲、長さ2〜4時間</li>
+        <li>Free向け: タイトル曲の間に3〜4曲、終わったら別リストに切替</li>
+        <li>始まりと同じ曲で終わらせない/規則的パターンを作らない</li>
+        <li>競合曲(チャート・番組で競合する楽曲)は避ける</li>
+        <li>同じプレイリストを何度もループ→使い捨て推奨</li>
+      </ul></div>
+    </div>
+    <div class="dodont">
+      <div class="dobox"><h5>OK</h5>イヤホン使用/約5時間でアカウント切替/オフライン再生(再生数はオンライン復帰時に反映)/バイラルシェアリンクからのフル再生</div>
+      <div class="dontbox"><h5>NG</h5>音量ゼロ/ループ再生/1アカウント延々再生(5時間超)/VPN接続/規則的な再生/同一アカウントを複数端末で同時再生</div>
+    </div>
+    <div class="infobox">
+      <h4>Spotify COUNTDOWN CHARTも忘れずに</h4>
+      リリース前のプリセーブ(事前登録)数を集計するSpotify独自のグローバルチャート。リリース前しかランクインできないので今のうちに。毎日21時頃更新、毎週木曜深夜2時(JST)ハイライト掲載。
+    </div>
+  </div>
+
+  <div class="tabpanel" id="pnl-apple">
+    <div class="guide-cols">
+      <div class="guide-block"><h4>基本</h4><ul>
+        <li>サブスク(有料)ユーザーのみ利用可(無料体験あり、通常1カ月)</li>
+        <li>Apple MusicとiTunesは別物。Apple Music再生はiTunes購入実績にならない</li>
+        <li><b>毎日DL状態を確認し削除すること</b> — DL状態だと再生がカウントされない</li>
+        <li>削除手順: ライブラリ→「…」→削除→「ダウンロードしたものを削除」</li>
+        <li>端末設定: 設定＞アプリ＞ミュージック＞ダウンロード欄を全てOFF</li>
+      </ul></div>
+      <div class="guide-block"><h4>スミンTIPS</h4><ul>
+        <li>タイトル曲の間のフィラーは1〜2曲でOK(Spotifyは3〜4曲必要)</li>
+        <li>1日の再生上限がSpotifyより緩い可能性あり</li>
+        <li>Apple専用StationheadチャンネルやWeverseリスニングパーティ開催時は積極参加を</li>
+        <li>目標はデイリーTOP100チャート進入</li>
+        <li>曲のシェアで間接的な再生増加に貢献できる</li>
+      </ul></div>
+    </div>
+    <div class="dodont">
+      <div class="dobox"><h5>OK</h5>Apple専用プレリ/リスニングパーティ優先/イヤホン使用/星マークでお気に入り追加/曲のシェア</div>
+      <div class="dontbox"><h5>NG</h5>音量ゼロ/DLしたままの再生/ループ・シャッフル・一時停止/プレイリスト使いまわし/VPN/同一アカウント複数端末</div>
+    </div>
+  </div>
+
+  <div class="tabpanel" id="pnl-youtube">
+    <div class="guide-cols">
+      <div class="guide-block"><h4>MV再生(ミュス)の効果的な手順</h4><ul>
+        <li>①「TXT+曲名や関連ワード」で検索</li>
+        <li>②MVをフル再生(高評価・コメント・SNSシェア・他コメへの返信も)</li>
+        <li>③別チャンネル動画(3〜5分・HYBE以外)を2〜3本フル再生</li>
+        <li>上記を繰り返す。毎回パターンを変えてランダムに</li>
+        <li>公式チャンネル未フォローなら視聴後に必ずフォロー</li>
+      </ul></div>
+      <div class="guide-block"><h4>よくある疑問</h4><ul>
+        <li>広告スキップで再生回数が増えない→公式根拠なし(通説)</li>
+        <li>バックグラウンド再生(Premium)も再生回数カウントされる(YouTube公式明記)</li>
+        <li>音量50%必須→不要。1目盛+イヤホンでOK(ミュートはNG)</li>
+        <li>オフライン再生→可能。次回オンライン時に反映</li>
+        <li>YouTubeバックグラウンド再生はBillboard Japanの音源にも加算</li>
+      </ul></div>
+    </div>
+    <div class="dodont">
+      <div class="dobox"><h5>OK</h5>イヤホン使用/公開24時間後のプレイリスト利用/コメント・いいね・チャンネルフォロー</div>
+      <div class="dontbox"><h5>NG</h5>音量ゼロ/ループ再生/規則的な再生/再生速度調整/2時間以上連続(小休止を)/VPN/同一アカウント複数端末</div>
+    </div>
+  </div>
+
+  <div class="tabpanel" id="pnl-itunes">
+    <div class="guide-cols">
+      <div class="guide-block"><h4>事前準備</h4><ul>
+        <li>account.apple.comでAppleアカウントを作成</li>
+        <li>【お支払いと配送先】から支払情報を設定しておく</li>
+        <li>PCに「iTunes」をインストールしておく</li>
+      </ul></div>
+      <div class="guide-block"><h4>購入手順</h4><ul>
+        <li>【ストア】タブを開き右上検索窓でアーティスト名/曲名を検索</li>
+        <li>価格をクリックして購入</li>
+        <li>DL済み楽曲は【ライブラリ】→【ダウンロード済み】に保存</li>
+        <li><b>⚠ 購入後は曲の「…」→【ダウンロードしたものを削除】を忘れずに</b></li>
+      </ul></div>
+    </div>
+    <div class="infobox">
+      <h4>なぜDL購入が重要か</h4>
+      音源チャート順位は「DL 60% + ストリーミング 40%」で反映。なるべく全音源サイトでタイトル曲だけは必ずDL購入を。発売日18〜19時推奨、不可なら当日中に必ずDL。リリース前のPre-orderは一斉購入対応のためおすすめしない。
+    </div>
+  </div>
+</div>
+</section>
+
+<section id="trial">
+<div class="wrap">
+  <div class="sh">
+    <span class="eyebrow">Free Trial</span>
+    <h2>無料体験キャンペーン一覧</h2>
+    <p>2026年3月27日時点。最新条件は必ず各公式サイトでご確認ください。</p>
+  </div>
+  <div class="trialgrid">
+    <div class="trialcard card">
+      <h4>YouTube Premium</h4>
+      <div class="price">通常 月額1,280円</div>
+      <ul>
+        <li>WEBページ経由: 2カ月無料 ← 一番お得</li>
+        <li>Google Play経由: 1カ月無料</li>
+        <li>Apple Store経由: 1カ月無料 / 月額1,680円 ← 割高・非推奨</li>
+        <li>Rakuten Mobile: 3カ月無料(対象プラン限定)</li>
+        <li>au・UQ mobile: 2カ月無料</li>
+        <li>SoftBank: 2カ月無料(対象プラン加入条件)</li>
+        <li>docomo: 1カ月無料</li>
+      </ul>
+    </div>
+    <div class="trialcard card">
+      <h4>Spotify</h4>
+      <div class="price">通常 月額1,080円</div>
+      <ul>
+        <li>キャンペーン: 3カ月無料(時期により変更可能性あり)</li>
+        <li>友達紹介(招待リンク): 3カ月無料</li>
+        <li>学生限定Premium Student: 3カ月無料 / 以降月額580円</li>
+        <li>無料アカウントでも再生数反映(PC/タブレットがお得)</li>
+      </ul>
+    </div>
+    <div class="trialcard card">
+      <h4>Apple Music</h4>
+      <div class="price">通常 月額1,080円</div>
+      <ul>
+        <li>期間限定キャンペーン: 3カ月無料(Apple IDごとに1回のみ)</li>
+        <li>au/UQ mobile新規加入: 3カ月無料(終了アナウンスなし)</li>
+        <li>無料期間終了後は自動更新 → キャンセル漏れに注意!</li>
+      </ul>
+    </div>
+  </div>
+</div>
+</section>
+
+<script>
+const tabs=document.querySelectorAll('[role="tab"]');
+tabs.forEach(tab=>{
+  tab.addEventListener('click',()=>{
+    tabs.forEach(t=>t.setAttribute('aria-selected','false'));
+    document.querySelectorAll('.tabpanel').forEach(p=>p.classList.remove('active'));
+    tab.setAttribute('aria-selected','true');
+    document.getElementById(tab.getAttribute('aria-controls')).classList.add('active');
+    history.replaceState(null,'',location.pathname+'#'+tab.getAttribute('aria-controls').replace('pnl-',''));
+  });
+});
+// URL hash activation
+const h=location.hash.replace('#','');
+const hmap={'spotify':'tab-spotify','apple':'tab-apple','youtube':'tab-youtube','itunes':'tab-itunes'};
+if(hmap[h]) document.getElementById(hmap[h]).click();
+</script>
+
+
+<footer>
+<div class="wrap">
+
+<p style="margin-top:14px;">本ページは ACT: STREAMING PROJECT TEAM の資料をもとに、個人の参照用として整理したものです。最新情報は必ず公式をご確認ください。</p>
+</div>
+</footer>
+<button class="btt" id="btt" aria-label="ページ上部へ戻る">↑</button>
+<script>
+const btt=document.getElementById('btt');
+window.addEventListener('scroll',()=>btt.classList.toggle('show',scrollY>500));
+btt.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
+// nav active
+const navLinks=[...document.querySelectorAll('.sitenav a')];
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    const link=document.querySelector('.sitenav a[href="#'+e.target.id+'"]');
+    if(link){navLinks.forEach(l=>l.classList.remove('active'));if(e.isIntersecting)link.classList.add('active');}
+  });
+},{rootMargin:'-40% 0px -50% 0px'});
+document.querySelectorAll('section[id]').forEach(s=>obs.observe(s));
+</script>
+
+</body>
+</html>
