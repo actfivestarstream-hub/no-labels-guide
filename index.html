@@ -764,6 +764,15 @@ const obs=new IntersectionObserver(entries=>{
   });
 },{rootMargin:'-40% 0px -50% 0px'});
 document.querySelectorAll('section[id]').forEach(s=>obs.observe(s));
+// GAS形式リンク(?page=xxx)をGitHub Pagesの実ファイル(xxx.html)へ振り替え。
+// 将来GASへ移行する際はこのブロックを外すだけでOK。
+(function(){
+  if(typeof google!=='undefined'&&google.script)return; // GAS環境では何もしない
+  document.querySelectorAll('a[href^="?page="]').forEach(a=>{
+    const m=a.getAttribute('href').match(/^\?page=([^#&]+)(.*)$/);
+    if(m)a.setAttribute('href',m[1]+'.html'+(m[2]||''));
+  });
+})();
 </script>
 
 </body>

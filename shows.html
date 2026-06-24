@@ -3,30 +3,26 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>音楽番組の仕組み | MOA PLAYBOOK</title>
+<title>音楽番組スコアガイド | COMEBACK●GUIDE</title>
 <style>
-
 @import url('https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800;900&family=Zen+Kaku+Gothic+New:wght@400;500;700;900&family=JetBrains+Mono:wght@400;500;600&display=swap');
 :root{
-  --paper:#D6EBF2;
-  --paper-2:#EFF8FB;
-  --ink:#1C2B45;
-  --ink-soft:#56708A;
-  --coral:#FF4565;
-  --coral-deep:#D72F4C;
-  --ice:#8FD9E8;
-  --ice-mid:#5DC4D8;
-  --ice-deep:#3FA9C0;
-  --navy:#1C2B45;
-  --gold:#D6A13C;
-  --violet:#8C6FB0;
-  --broadcast:#3D5A82;
-  --line:#B8D8E3;
-  --line-soft:#CEEAF2;
-  --frost:rgba(255,255,255,.55);
-  --frost-strong:rgba(255,255,255,.76);
-  --fb:rgba(255,255,255,.82);
+  --paper:#D6EBF2;--paper-2:#EFF8FB;
+  --ink:#1C2B45;--ink-soft:#56708A;
+  --coral:#FF4565;--coral-deep:#D72F4C;
+  --ice:#8FD9E8;--ice-mid:#5DC4D8;--ice-deep:#3FA9C0;
+  --line:#B8D8E3;--line-soft:#CEEAF2;
+  --frost:rgba(255,255,255,.55);--frost-strong:rgba(255,255,255,.76);
   --maxw:1080px;
+  /* score colors */
+  --c-streaming:#3FA9C0;
+  --c-physical:#C09060;
+  --c-prevote:#7BAAC8;
+  --c-livevote:#5E8A9E;
+  --c-broadcast:#A8BEC8;
+  --c-sns:#9B8EC4;
+  --c-video:#6FAE90;
+  --c-committee:#C4A88F;
 }
 *{box-sizing:border-box;}
 html{scroll-behavior:smooth;}
@@ -40,7 +36,7 @@ body{
     var(--paper);
   background-attachment:fixed;
 }
-h1,h2,h3,h4,h5{margin:0;font-family:'Zen Kaku Gothic New',sans-serif;font-weight:900;letter-spacing:.01em;}
+h1,h2,h3,h4{margin:0;font-family:'Zen Kaku Gothic New',sans-serif;font-weight:900;}
 p{margin:0 0 .9em;}
 a{color:var(--coral-deep);}
 .display{font-family:'Big Shoulders Display',sans-serif;font-weight:900;}
@@ -48,143 +44,88 @@ a{color:var(--coral-deep);}
 .wrap{max-width:var(--maxw);margin:0 auto;padding:0 24px;}
 
 /* topbar */
-.topbar{
-  position:sticky;top:0;z-index:80;
-  background:rgba(214,235,242,.88);
-  -webkit-backdrop-filter:blur(14px) saturate(160%);
-  backdrop-filter:blur(14px) saturate(160%);
-  border-bottom:1px solid var(--line);
-}
-.topbar-inner{
-  max-width:var(--maxw);margin:0 auto;padding:0 24px;
-  display:flex;align-items:center;gap:0;height:54px;
-}
-.brand{
-  font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:17px;
-  color:var(--ink);text-decoration:none;flex-shrink:0;margin-right:18px;
-  letter-spacing:.01em;
-}
+.topbar{position:sticky;top:0;z-index:80;background:rgba(214,235,242,.88);-webkit-backdrop-filter:blur(14px) saturate(160%);backdrop-filter:blur(14px) saturate(160%);border-bottom:1px solid var(--line);}
+.topbar-inner{max-width:var(--maxw);margin:0 auto;padding:8px 24px 0;display:flex;flex-direction:column;align-items:flex-start;}
+.brand{font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:17px;color:var(--ink);text-decoration:none;flex-shrink:0;letter-spacing:.01em;}
 .brand em{color:var(--coral);font-style:normal;}
-nav.sitenav{display:flex;gap:0;overflow-x:auto;scrollbar-width:none;flex:1;}
-nav.sitenav::-webkit-scrollbar{display:none;}
-nav.sitenav a{
-  flex:none;white-space:nowrap;
-  font-size:12.5px;font-weight:700;color:var(--ink-soft);
-  text-decoration:none;padding:0 13px;height:54px;
-  display:inline-flex;align-items:center;
-  border-bottom:3px solid transparent;
-  transition:color .15s,border-color .15s;
-}
-nav.sitenav a:hover,nav.sitenav a.active{color:var(--ink);border-bottom-color:var(--ice-mid);}
-nav.sitenav a.accent{color:var(--coral-deep);}
-nav.sitenav a.accent:hover{border-bottom-color:var(--coral);}
+#guide-nav{width:100%;padding:6px 0 10px;}
+.guide-nav-list{display:flex;flex-wrap:nowrap;gap:6px;list-style:none;padding:0;margin:0;overflow-x:auto;scrollbar-width:none;}
+.guide-nav-list::-webkit-scrollbar{display:none;}
+.gnav-link{display:inline-flex;align-items:center;gap:5px;padding:5px 12px;font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:600;letter-spacing:.04em;color:var(--ink);text-decoration:none;white-space:nowrap;border:1.5px solid var(--line);border-radius:20px;background:#fff;transition:background .18s,color .18s,border-color .18s;}
+.gnav-link:hover,.gnav-link.active{background:var(--ink);color:#fff;border-color:var(--ink);}
+
+/* page hero */
+.page-hero{padding:48px 0 36px;border-bottom:1px solid var(--line);}
+.page-hero .eyebrow{display:block;font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--ice-deep);margin-bottom:10px;font-family:'JetBrains Mono',monospace;}
+.page-hero h1{font-size:clamp(26px,5vw,38px);line-height:1.15;}
+.page-hero p{color:var(--ink-soft);margin-top:12px;font-size:14.5px;max-width:600px;}
 
 /* sections */
-section{padding:56px 0;border-bottom:1px solid var(--line);}
+section{padding:52px 0;border-bottom:1px solid var(--line);}
 section:last-of-type{border-bottom:none;}
 .sh{margin-bottom:28px;}
-.sh .eyebrow{
-  display:block;font-size:11px;font-weight:700;letter-spacing:.14em;
-  text-transform:uppercase;color:var(--ice-deep);margin-bottom:8px;
-  font-family:'JetBrains Mono',monospace;
-}
-.sh h2{font-size:clamp(22px,3.8vw,30px);}
-.sh p{color:var(--ink-soft);margin-top:10px;font-size:14px;}
+.sh .eyebrow{display:block;font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--ice-deep);margin-bottom:8px;font-family:'JetBrains Mono',monospace;}
+.sh h2{font-size:clamp(20px,3.5vw,26px);}
+
+/* show section */
+.show-block{margin-bottom:52px;}
+.show-block:last-child{margin-bottom:0;}
+.show-header{display:flex;align-items:baseline;gap:14px;margin-bottom:20px;flex-wrap:wrap;}
+.show-name{font-family:'Big Shoulders Display',sans-serif;font-size:clamp(22px,4vw,30px);font-weight:900;letter-spacing:.02em;}
+.show-meta{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--ink-soft);font-weight:500;}
+.show-badge{display:inline-block;font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;letter-spacing:.08em;padding:3px 10px;border-radius:4px;background:var(--ink);color:#fff;margin-left:6px;vertical-align:middle;}
+
+/* show layout: pie + table */
+.show-layout{display:grid;grid-template-columns:200px 1fr;gap:32px;align-items:start;}
+@media(max-width:640px){.show-layout{grid-template-columns:1fr;}}
+
+/* pie chart */
+.pie-wrap{display:flex;flex-direction:column;align-items:center;gap:14px;}
+.pie-canvas{width:220px;height:220px;}
+.pie-legend{width:100%;display:flex;flex-direction:column;gap:5px;}
+.legend-item{display:flex;align-items:center;gap:7px;font-size:11.5px;}
+.legend-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;}
+.legend-label{color:var(--ink-soft);flex:1;}
+.legend-pct{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;color:var(--ink);}
+
+/* score table */
+.score-table{width:100%;border-collapse:collapse;font-size:13.5px;}
+.score-table th{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft);padding:7px 10px;border-bottom:2px solid var(--line);text-align:left;}
+.score-table td{padding:9px 10px;border-bottom:1px solid var(--line-soft);vertical-align:top;}
+.score-table tr:last-child td{border-bottom:none;}
+.score-table .pct-bar{display:flex;align-items:center;gap:8px;}
+.score-table .bar-bg{flex:1;height:5px;background:var(--line-soft);border-radius:3px;overflow:hidden;}
+.score-table .bar-fill{height:100%;border-radius:3px;}
+.score-table .pct-num{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;width:34px;text-align:right;flex-shrink:0;}
+.note{font-size:11.5px;color:var(--ink-soft);margin-top:3px;}
+.cat-dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px;vertical-align:middle;}
 
 /* frost card */
-.card{
-  background:var(--frost);
-  -webkit-backdrop-filter:blur(18px) saturate(160%);
-  backdrop-filter:blur(18px) saturate(160%);
-  border:1px solid rgba(255,255,255,.82);
-  box-shadow:0 8px 32px -12px rgba(28,69,90,.18);
-}
+.card{background:var(--frost);-webkit-backdrop-filter:blur(18px) saturate(160%);backdrop-filter:blur(18px) saturate(160%);border:1px solid rgba(255,255,255,.82);box-shadow:0 8px 32px -12px rgba(28,69,90,.18);border-radius:16px;padding:24px;}
 
-/* button styles */
-.btn{
-  display:inline-flex;align-items:center;gap:8px;
-  font-family:'Big Shoulders Display',sans-serif;font-weight:800;
-  font-size:15px;letter-spacing:.04em;text-decoration:none;
-  padding:12px 22px;transition:opacity .15s,transform .1s;cursor:pointer;
-}
-.btn:active{transform:scale(.97);}
-.btn-primary{background:var(--ink);color:#fff;}
-.btn-primary:hover{opacity:.87;}
-.btn-ice{background:var(--ice-deep);color:#fff;}
-.btn-ice:hover{opacity:.87;}
-.btn-outline{background:transparent;color:var(--ink);border:1.5px solid var(--ink);}
-.btn-outline:hover{background:var(--ink);color:#fff;}
+/* quick ref matrix */
+.matrix-wrap{overflow-x:auto;}
+.matrix-table{width:100%;border-collapse:collapse;font-size:13px;min-width:600px;}
+.matrix-table th{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);padding:8px 12px;border-bottom:2px solid var(--line);text-align:center;}
+.matrix-table th:first-child{text-align:left;}
+.matrix-table td{padding:9px 12px;border-bottom:1px solid var(--line-soft);text-align:center;font-size:14px;}
+.matrix-table td:first-child{text-align:left;font-weight:700;font-size:13px;}
+.matrix-table tr:last-child td{border-bottom:none;}
+.eff-full{color:#2A9D6F;}   /* ◎ 有効 */
+.eff-dl{color:var(--ink);}  /* △ DLのみ */
+.eff-none{color:var(--line);} /* — 無効 */
+.eff-label{font-size:10px;color:var(--ink-soft);margin-top:2px;}
 
-/* footer */
-footer{padding:36px 0 64px;border-top:1px solid var(--line);}
-footer p{font-size:11.5px;color:var(--ink-soft);}
+/* glossary */
+.glossary-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;}
+.gloss-item{background:var(--frost-strong);border:1px solid rgba(255,255,255,.9);border-radius:12px;padding:16px 18px;}
+.gloss-term{font-family:'Big Shoulders Display',sans-serif;font-size:17px;font-weight:900;letter-spacing:.02em;color:var(--ice-deep);}
+.gloss-kana{font-size:11px;color:var(--ink-soft);margin-left:6px;font-family:'JetBrains Mono',monospace;}
+.gloss-def{font-size:13.5px;color:var(--ink);margin-top:6px;line-height:1.7;}
 
-/* back to top */
-.btt{
-  position:fixed;right:18px;bottom:18px;z-index:60;
-  width:42px;height:42px;border-radius:50%;
-  background:var(--ink);color:#fff;
-  display:flex;align-items:center;justify-content:center;
-  border:none;cursor:pointer;font-size:16px;
-  opacity:0;pointer-events:none;transition:opacity .25s;
-}
+/* btt */
+.btt{position:fixed;right:18px;bottom:18px;z-index:60;width:42px;height:42px;border-radius:50%;background:var(--ink);color:#fff;display:flex;align-items:center;justify-content:center;border:none;cursor:pointer;font-size:16px;opacity:0;pointer-events:none;transition:opacity .25s;}
 .btt.show{opacity:1;pointer-events:auto;}
-
-
-.legend{display:flex;flex-wrap:wrap;gap:14px 22px;margin:0 0 28px;font-size:12.5px;color:var(--ink-soft);}
-.legend span{display:inline-flex;align-items:center;gap:7px;}
-.legend i{width:11px;height:11px;border-radius:2px;display:inline-block;}
-.donutgrid{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
-@media(max-width:720px){.donutgrid{grid-template-columns:1fr;}}
-.donutcard{padding:20px 22px;display:flex;gap:18px;align-items:center;}
-.donutcard.full{grid-column:1/-1;}
-.donut{position:relative;width:110px;height:110px;border-radius:50%;flex-shrink:0;opacity:0;transform:scale(.86);transition:opacity .7s ease,transform .7s ease;}
-.donut.visible{opacity:1;transform:scale(1);}
-.donut::after{content:"";position:absolute;inset:21%;border-radius:50%;background:rgba(255,255,255,.72);}
-.donutlabel{position:absolute;inset:21%;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:1;}
-.donutlabel .pct{font-family:'Big Shoulders Display',sans-serif;font-size:20px;font-weight:900;color:var(--ink);line-height:1;}
-.donutlabel .pctlbl{font-size:8px;color:var(--ink-soft);margin-top:2px;font-family:'JetBrains Mono',monospace;}
-.donutinfo{flex:1;min-width:0;}
-.name-en{font-family:'Big Shoulders Display',sans-serif;font-size:20px;font-weight:900;line-height:1;}
-.name-jp{font-size:12px;color:var(--ink-soft);margin-top:2px;}
-.breaklist{list-style:none;margin:10px 0 0;padding:0;font-size:12px;color:var(--ink-soft);}
-.breaklist li{display:flex;justify-content:space-between;padding:2.5px 0;border-bottom:1px dashed rgba(184,216,227,.6);}
-.breaklist li:last-child{border-bottom:none;}
-.breaklist .num{color:var(--ink);font-weight:700;font-family:'JetBrains Mono',monospace;}
-.scorenote{font-size:11px;color:var(--ink-soft);margin-top:8px;padding-top:8px;border-top:1px solid rgba(184,216,227,.5);}
-.common-callout{margin-top:22px;padding:18px 22px;background:var(--ink);color:#fff;}
-.common-callout .eyebrow{font-family:'JetBrains Mono',monospace;font-size:10.5px;color:var(--ice);letter-spacing:.12em;font-weight:700;text-transform:uppercase;}
-.common-callout p{margin:8px 0 0;font-size:13.5px;color:#D8DCE8;}
-.common-callout ul{margin:10px 0 0;padding-left:18px;font-size:13px;color:#D8DCE8;}
-.tablewrap{overflow-x:auto;border:1px solid var(--line);}
-table.matrix{width:100%;border-collapse:collapse;font-size:13px;min-width:600px;}
-table.matrix th,table.matrix td{padding:10px 12px;text-align:center;border-bottom:1px solid var(--line);}
-table.matrix th{font-family:'JetBrains Mono',monospace;font-size:10.5px;background:var(--ink);color:#fff;font-weight:600;}
-table.matrix td:first-child,table.matrix th:first-child{text-align:left;font-weight:700;background:rgba(230,245,250,.6);position:sticky;left:0;}
-table.matrix tbody tr:last-child td{border-bottom:none;}
-table.matrix tr.split td{border-top:2px solid var(--ink);}
-.ok,.ng{display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;border-radius:50%;font-size:11px;font-weight:800;}
-.ok{background:var(--coral);color:#fff;}
-.ng{border:1.5px solid var(--line);color:var(--line);}
-.cyclewrap{display:flex;align-items:flex-start;overflow-x:auto;padding-bottom:10px;}
-.cyclestep{flex:1 0 140px;min-width:140px;position:relative;padding:0 12px 0 0;}
-.cyclestep .num{font-family:'Big Shoulders Display',sans-serif;font-size:28px;color:var(--line);font-weight:900;}
-.cyclestep h4{font-size:13px;margin-top:2px;}
-.cyclestep p{font-size:12px;color:var(--ink-soft);margin-top:5px;}
-.cyclestep::after{content:"→";position:absolute;right:-4px;top:5px;color:var(--line);font-size:16px;}
-.cyclestep:last-child::after{content:"";}
-.order-strip{margin-top:16px;display:flex;flex-wrap:wrap;gap:8px;align-items:center;}
-.order-strip .chip{border:1px solid var(--ink);padding:5px 11px;font-weight:700;font-size:11.5px;}
-.order-strip .arrow{color:var(--ink-soft);}
-.glossgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
-@media(max-width:720px){.glossgrid{grid-template-columns:repeat(2,1fr);}}
-@media(max-width:480px){.glossgrid{grid-template-columns:1fr;}}
-.gloss{padding:13px 15px;}
-.gloss .term{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;color:var(--coral-deep);}
-.gloss p{font-size:12.5px;color:var(--ink-soft);margin:5px 0 0;}
-.infobox{border-left:3px solid var(--gold);background:var(--frost);padding:14px 18px;margin-top:18px;font-size:13px;}
-.infobox h4{font-size:11.5px;text-transform:uppercase;letter-spacing:.06em;color:var(--gold);margin-bottom:6px;font-family:'JetBrains Mono',monospace;}
-
 </style>
 </head>
 <body>
@@ -192,218 +133,637 @@ table.matrix tr.split td{border-top:2px solid var(--ink);}
 <header class="topbar">
 <div class="topbar-inner">
   <a class="brand" href="?">COMEBACK<em>●</em>GUIDE</a>
-  <nav class="sitenav">
-<a href="?">← トップ</a>
-<a href="?page=shows#scores">スコア構成</a>
-<a href="?page=shows#matrix">有効スミン表</a>
-<a href="?page=shows#cycle">集計サイクル</a>
-<a href="?page=shows#glossary">用語集</a>
-<a href="?page=streaming">スミンガイド</a>
-</nav>
+  <nav id="guide-nav">
+    <ul class="guide-nav-list">
+      <li><a class="gnav-link" href="?#presave"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>Pre-save</a></li>
+      <li><a class="gnav-link" href="?#physical"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3"/></svg>CD予約</a></li>
+      <li><a class="gnav-link" href="?#support"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>Donation</a></li>
+      <li><a class="gnav-link" href="?page=streaming"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>スミン</a></li>
+      <li><a class="gnav-link active" href="?page=shows"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2z"/></svg>音楽番組</a></li>
+    </ul>
+  </nav>
 </div>
 </header>
 
+<div class="page-hero">
+<div class="wrap">
+  <span class="eyebrow">Music Show Guide</span>
+  <h1 class="display">音楽番組スコアガイド</h1>
+  <p>韓国5大音楽番組のスコア構成・有効なスミン方法・用語集をまとめたページです。<br>スコアは相対評価（Relative Scoring）。ライバルより高い数値を目指すことが重要です。</p>
+</div>
+</div>
 
-<section id="scores">
+<main>
+
+<!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+     5番組セクション
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<section id="shows">
 <div class="wrap">
   <div class="sh">
-    <span class="eyebrow">Chapter 01</span>
+    <span class="eyebrow">Score Breakdown</span>
     <h2>番組別スコア構成</h2>
-    <p>毎週月〜日のデータを集計し、翌週の番組内で1位を発表。各項目は基本的に相対評価(1位が満点、それ以外は1位との差で点数が決まる)。2026年4月時点、DL/スミン比率は一部推測を含む。</p>
+    <p style="color:var(--ink-soft);font-size:13.5px;margin-top:8px;">全番組共通：スコアは相対評価。1位を基準に割合で計算されます。</p>
   </div>
-  <div class="legend">
-    <span><i style="background:var(--coral)"></i>音源</span>
-    <span><i style="background:var(--broadcast)"></i>放送点数</span>
-    <span><i style="background:var(--gold)"></i>投票</span>
-    <span><i style="background:var(--ice-mid)"></i>音盤</span>
-    <span><i style="background:var(--violet)"></i>SNS/動画</span>
-  </div>
-  <div class="donutgrid">
-    <div class="donutcard card">
-      <div class="donut" style="background:conic-gradient(var(--coral) 0 35%,var(--broadcast) 35% 55%,var(--gold) 55% 75%,var(--ice-mid) 75% 90%,var(--violet) 90% 100%);">
-        
-      </div>
-      <div class="donutinfo">
-        <div class="name-en">SHOW CHAMPION</div><div class="name-jp">ショーチャン</div>
-        <ul class="breaklist">
-          <li>音源<span class="num">35%</span></li><li>放送点数<span class="num">20%</span></li>
-          <li>事前投票<span class="num">20%</span></li><li>音盤(ハント)<span class="num">15%</span></li>
-          <li>SNS<span class="num">10%</span></li>
-        </ul>
-        <div class="scorenote">Bugs DL80:ST20 / Melon DL60:ST40 / genie DL50:ST50 / FLO ST100</div>
-      </div>
+
+  <!-- ① SHOW CHAMPION -->
+  <div class="show-block card" style="margin-bottom:28px;" id="show-champion">
+    <div class="show-header">
+      <span class="show-name">SHOW CHAMPION</span>
+      <span class="show-meta">MBC M &nbsp;|&nbsp; 月曜 18:00 KST</span>
     </div>
-    <div class="donutcard card">
-      <div class="donut" style="background:conic-gradient(var(--coral) 0 45.5%,var(--broadcast) 45.5% 54.5%,var(--gold) 54.5% 72.7%,var(--ice-mid) 72.7% 86.4%,var(--violet) 86.4% 100%);">
-        
+    <div class="show-layout">
+      <div class="pie-wrap">
+        <canvas class="pie-canvas" id="pie-sc" width="220" height="220"></canvas>
       </div>
-      <div class="donutinfo">
-        <div class="name-en">M COUNTDOWN</div><div class="name-jp">エムカ</div>
-        <ul class="breaklist">
-          <li>音源<span class="num">50%</span></li><li>放送点数<span class="num">10%</span></li>
-          <li>投票計<span class="num">20%</span></li><li>音盤(サークル)<span class="num">15%</span></li>
-          <li>SNS<span class="num">15%</span></li>
-        </ul>
-        <div class="scorenote">Apple/Spotify/YTMusic ST100 / Melon60:40 / genie50:50 / FLO ST100 / Bugs80:20<br>タイトル曲/先行リリースのみ・B-side不可</div>
-      </div>
-    </div>
-    <div class="donutcard card">
-      <div class="donut" style="background:conic-gradient(var(--coral) 0 60%,var(--broadcast) 60% 80%,var(--gold) 80% 90%,var(--ice-mid) 90% 95%,var(--violet) 95% 100%);">
-        
-      </div>
-      <div class="donutinfo">
-        <div class="name-en">MUSIC BANK</div><div class="name-jp">ミューバン</div>
-        <ul class="breaklist">
-          <li>音源<span class="num">60%</span></li><li>放送点数<span class="num">20%</span></li>
-          <li>事前投票(相対評価)<span class="num">10%</span></li><li>音盤(サークル)<span class="num">5%</span></li>
-          <li>SNS<span class="num">5%</span></li>
-        </ul>
-        <div class="scorenote">唯一の点数分配方式。B-sideノミネート可。</div>
-      </div>
-    </div>
-    <div class="donutcard card">
-      <div class="donut" style="background:conic-gradient(var(--coral) 0 50%,var(--broadcast) 50% 60%,var(--gold) 60% 80%,var(--ice-mid) 80% 90%,var(--violet) 90% 100%);">
-        
-      </div>
-      <div class="donutinfo">
-        <div class="name-en">MUSIC CORE</div><div class="name-jp">ウマチュン</div>
-        <ul class="breaklist">
-          <li>音源<span class="num">50%</span></li><li>放送点数<span class="num">10%</span></li>
-          <li>投票4種計<span class="num">20%</span></li><li>音盤(サークル)<span class="num">10%</span></li>
-          <li>動画<span class="num">10%</span></li>
-        </ul>
-        <div class="scorenote">リリースから2ヶ月以内のみ対象。B-side不可。</div>
-      </div>
-    </div>
-    <div class="donutcard card full">
-      <div class="donut" style="background:conic-gradient(var(--coral) 0 50%,var(--broadcast) 50% 60%,var(--gold) 60% 70%,var(--ice-mid) 70% 80%,var(--violet) 80% 100%);">
-        
-      </div>
-      <div class="donutinfo">
-        <div class="name-en">INKIGAYO</div><div class="name-jp">インガ</div>
-        <ul class="breaklist">
-          <li>音源<span class="num">50%</span></li><li>放送点数<span class="num">10%</span></li>
-          <li>投票計<span class="num">10%</span></li><li>音盤(サークル)<span class="num">10%</span></li>
-          <li>SNS<span class="num">20%</span></li>
-        </ul>
-        <div class="scorenote">韓国音源が二重カウント(グローバル+国内)。B-sideノミネート可。CIRCLE GLOBAL K-POP CHART + Melon60:40 / genie50:50 / FLO ST100 / Apple/Spotify/YTMusic ST100</div>
-      </div>
+      <table class="score-table">
+        <thead><tr><th>項目</th><th>割合</th><th>詳細・注釈</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><span class="cat-dot" style="background:var(--c-streaming)"></span>音源 / Streaming</td>
+            <td><div class="pct-bar"><div class="bar-bg"><div class="bar-fill" style="width:35%;background:var(--c-streaming)"></div></div><span class="pct-num">35%</span></div></td>
+            <td>
+              Melon DL60:スミン40 / genie DL50:スミン50<br>
+              FLO スミン100% / Bugs DL80:スミン20
+              <div class="note">※ DL（ダウンロード）とストリーミング（スミン）の比率</div>
+            </td>
+          </tr>
+          <tr>
+            <td><span class="cat-dot" style="background:var(--c-prevote)"></span>事前投票 / Pre-vote</td>
+            <td><div class="pct-bar"><div class="bar-bg"><div class="bar-fill" style="width:20%;background:var(--c-prevote)"></div></div><span class="pct-num">20%</span></div></td>
+            <td>公式サイト・アプリで放送前に投票</td>
+          </tr>
+          <tr>
+            <td><span class="cat-dot" style="background:var(--c-broadcast)"></span>放送 / Broadcast</td>
+            <td><div class="pct-bar"><div class="bar-bg"><div class="bar-fill" style="width:20%;background:var(--c-broadcast)"></div></div><span class="pct-num">20%</span></div></td>
+            <td>放送回数・露出ポイント</td>
+          </tr>
+          <tr>
+            <td><span class="cat-dot" style="background:var(--c-physical)"></span>音盤 / Physical CD</td>
+            <td><div class="pct-bar"><div class="bar-bg"><div class="bar-fill" style="width:15%;background:var(--c-physical)"></div></div><span class="pct-num">15%</span></div></td>
+            <td>Hanteo Chart（初動7日間）を参照</td>
+          </tr>
+          <tr>
+            <td><span class="cat-dot" style="background:var(--c-sns)"></span>SNS</td>
+            <td><div class="pct-bar"><div class="bar-bg"><div class="bar-fill" style="width:10%;background:var(--c-sns)"></div></div><span class="pct-num">10%</span></div></td>
+            <td>Twitter（X）・YouTube等のSNS指数</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>
-  <div class="common-callout">
-    <span class="eyebrow">共通点</span>
-    <p>5番組すべてで「音源」が最大かつ最重要のスコア項目(35〜60%)。最重要項目に貢献する手段:</p>
-    <ul>
-      <li>自身での音源ストリーミング</li>
-      <li>韓国音源チームへの寄付・有志の寄付企画への参加(@txtdigitals / @MOAVERSE_Time)</li>
-      <li>DUCKADアプリの活用</li>
-      <li>音盤購入・MVミュス・投票も忘れずに</li>
-    </ul>
+
+  <!-- ② M COUNTDOWN -->
+  <div class="show-block card" style="margin-bottom:28px;" id="show-mcountdown">
+    <div class="show-header">
+      <span class="show-name">M COUNTDOWN</span>
+      <span class="show-meta">Mnet &nbsp;|&nbsp; 水曜 19:00 KST</span>
+      <span class="show-badge">タイトル曲のみ</span>
+    </div>
+    <div class="show-layout">
+      <div class="pie-wrap">
+        <canvas class="pie-canvas" id="pie-mc" width="220" height="220"></canvas>
+      </div>
+      <table class="score-table">
+        <thead><tr><th>項目</th><th>割合</th><th>詳細・注釈</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><span class="cat-dot" style="background:var(--c-streaming)"></span>音源 / Streaming</td>
+            <td><div class="pct-bar"><div class="bar-bg"><div class="bar-fill" style="width:50%;background:var(--c-streaming)"></div></div><span class="pct-num">50%</span></div></td>
+            <td>
+              <strong>Circle Global K-POP Chart</strong>を使用<br>
+              Spotify / Apple Music / YTMusic スミン100%<br>
+              Melon DL60:スミン40 / genie DL50:スミン50<br>
+              FLO / VIBE スミン100% / Bugs DL80:スミン20
+              <div class="note">※ グローバルチャートのためSpotify等が有効</div>
+            </td>
+          </tr>
+          <tr>
+            <td><span class="cat-dot" style="background:var(--c-sns)"></span>SNS</td>
+            <td><div class="pct-bar"><div class="bar-bg"><div class="bar-fill" style="width:15%;background:var(--c-sns)"></div></div><span class="pct-num">15%</span></div></td>
+            <td>SNS指数（Twitter等）</td>
+          </tr>
+          <tr>
+            <td><span class="cat-dot" style="background:var(--c-physical)"></span>音盤 / Physical CD</td>
+            <td><div class="pct-bar"><div class="bar-bg"><div class="bar-fill" style="width:15%;background:var(--c-physical)"></div></div><span class="pct-num">15%</span></div></td>
+            <td>Circle Chart（出荷ベース）参照</td>
+          </tr>
+          <tr>
+            <td><span class="cat-dot" style="background:var(--c-prevote)"></span>事前投票 / Pre-vote</td>
+            <td><div class="pct-bar"><div class="bar-bg"><div class="bar-fill" style="width:10%;background:var(--c-prevote)"></div></div><span class="pct-num">10%</span></div></td>
+            <td>Mnet公式・M+ アプリで投票</td>
+          </tr>
+          <tr>
+            <td><span class="cat-dot" style="background:var(--c-broadcast)"></span>放送 / Broadcast</td>
+            <td><div class="pct-bar"><div class="bar-bg"><div class="bar-fill" style="width:10%;background:var(--c-broadcast)"></div></div><span class="pct-num">10%</span></div></td>
+            <td>放送露出ポイント</td>
+          </tr>
+          <tr>
+            <td><span class="cat-dot" style="background:var(--c-livevote)"></span>リアルタイム投票 / Live vote</td>
+            <td><div class="pct-bar"><div class="bar-bg"><div class="bar-fill" style="width:10%;background:var(--c-livevote)"></div></div><span class="pct-num">10%</span></div></td>
+            <td>放送中にMnet公式アプリで投票。放送時間中が有効</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
+
+  <!-- ③ Music Bank -->
+  <div class="show-block card" style="margin-bottom:28px;" id="show-musicbank">
+    <div class="show-header">
+      <span class="show-name">Music Bank</span>
+      <span class="show-meta">KBS2 &nbsp;|&nbsp; 金曜 17:00 KST</span>
+    </div>
+    <div class="show-layout">
+      <div class="pie-wrap">
+        <canvas class="pie-canvas" id="pie-mb" width="220" height="220"></canvas>
+      </div>
+      <table class="score-table">
+        <thead><tr><th>項目</th><th>割合</th><th>詳細・注釈</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><span class="cat-dot" style="background:var(--c-streaming)"></span>音源 / Streaming</td>
+            <td><div class="pct-bar"><div class="bar-bg"><div class="bar-fill" style="width:60%;background:var(--c-streaming)"></div></div><span class="pct-num">60%</span></div></td>
+            <td>
+              Melon DL60:スミン40 / genie DL50:スミン50<br>
+              FLO / VIBE スミン100% / Bugs DL80:スミン20
+              <div class="note">※ Spotify / Apple Music / YTMusicは<strong>非対応</strong>（国内チャートのみ）</div>
+            </td>
+          </tr>
+          <tr>
+            <td><span class="cat-dot" style="background:var(--c-broadcast)"></span>放送 / Broadcast</td>
+            <td><div class="pct-bar"><div class="bar-bg"><div class="bar-fill" style="width:20%;background:var(--c-broadcast)"></div></div><span class="pct-num">20%</span></div></td>
+            <td>KBS2放送回数・出演ポイント</td>
+          </tr>
+          <tr>
+            <td><span class="cat-dot" style="background:var(--c-prevote)"></span>事前投票 / Pre-vote</td>
+            <td><div class="pct-bar"><div class="bar-bg"><div class="bar-fill" style="width:10%;background:var(--c-prevote)"></div></div><span class="pct-num">10%</span></div></td>
+            <td>相対評価。KBS公式で投票</td>
+          </tr>
+          <tr>
+            <td><span class="cat-dot" style="background:var(--c-physical)"></span>音盤 / Physical CD</td>
+            <td><div class="pct-bar"><div class="bar-bg"><div class="bar-fill" style="width:5%;background:var(--c-physical)"></div></div><span class="pct-num">5%</span></div></td>
+            <td>Circle Chart参照。ポイント配分方式</td>
+          </tr>
+          <tr>
+            <td><span class="cat-dot" style="background:var(--c-sns)"></span>SNS</td>
+            <td><div class="pct-bar"><div class="bar-bg"><div class="bar-fill" style="width:5%;background:var(--c-sns)"></div></div><span class="pct-num">5%</span></div></td>
+            <td>SNS指数</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ④ Music Core -->
+  <div class="show-block card" style="margin-bottom:28px;" id="show-musiccore">
+    <div class="show-header">
+      <span class="show-name">Music Core</span>
+      <span class="show-meta">MBC &nbsp;|&nbsp; 土曜 17:00 KST</span>
+      <span class="show-badge">リリースから2ヶ月以内のみ</span>
+    </div>
+    <div class="show-layout">
+      <div class="pie-wrap">
+        <canvas class="pie-canvas" id="pie-mcore" width="220" height="220"></canvas>
+      </div>
+      <table class="score-table">
+        <thead><tr><th>項目</th><th>割合</th><th>詳細・注釈</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><span class="cat-dot" style="background:var(--c-streaming)"></span>音源 / Streaming</td>
+            <td><div class="pct-bar"><div class="bar-bg"><div class="bar-fill" style="width:50%;background:var(--c-streaming)"></div></div><span class="pct-num">50%</span></div></td>
+            <td>
+              <strong>Circle Digital Chart</strong>を使用<br>
+              Apple Music / Spotify スミン100%<br>
+              Melon DL60:スミン40 / genie DL50:スミン50<br>
+              FLO / VIBE スミン100% / Bugs DL80:スミン20
+            </td>
+          </tr>
+          <tr>
+            <td><span class="cat-dot" style="background:var(--c-video)"></span>動画 / Video</td>
+            <td><div class="pct-bar"><div class="bar-bg"><div class="bar-fill" style="width:10%;background:var(--c-video)"></div></div><span class="pct-num">10%</span></div></td>
+            <td>YouTube MV再生数等の動画指数</td>
+          </tr>
+          <tr>
+            <td><span class="cat-dot" style="background:var(--c-physical)"></span>音盤 / Physical CD</td>
+            <td><div class="pct-bar"><div class="bar-bg"><div class="bar-fill" style="width:10%;background:var(--c-physical)"></div></div><span class="pct-num">10%</span></div></td>
+            <td>Circle Chart参照</td>
+          </tr>
+          <tr>
+            <td><span class="cat-dot" style="background:var(--c-broadcast)"></span>放送 / Broadcast</td>
+            <td><div class="pct-bar"><div class="bar-bg"><div class="bar-fill" style="width:10%;background:var(--c-broadcast)"></div></div><span class="pct-num">10%</span></div></td>
+            <td>MBC放送回数</td>
+          </tr>
+          <tr>
+            <td><span class="cat-dot" style="background:var(--c-livevote)"></span>リアルタイムアプリ投票 / App vote</td>
+            <td><div class="pct-bar"><div class="bar-bg"><div class="bar-fill" style="width:5%;background:var(--c-livevote)"></div></div><span class="pct-num">5%</span></div></td>
+            <td>放送中にMBC公式アプリで投票</td>
+          </tr>
+          <tr>
+            <td><span class="cat-dot" style="background:var(--c-livevote)"></span>リアルタイムSMS投票 / SMS vote</td>
+            <td><div class="pct-bar"><div class="bar-bg"><div class="bar-fill" style="width:5%;background:var(--c-livevote)"></div></div><span class="pct-num">5%</span></div></td>
+            <td>韓国国内SMS投票のみ有効</td>
+          </tr>
+          <tr>
+            <td><span class="cat-dot" style="background:var(--c-prevote)"></span>グローバル事前投票 / Global pre-vote</td>
+            <td><div class="pct-bar"><div class="bar-bg"><div class="bar-fill" style="width:5%;background:var(--c-prevote)"></div></div><span class="pct-num">5%</span></div></td>
+            <td>韓国国内のみ有効</td>
+          </tr>
+          <tr>
+            <td><span class="cat-dot" style="background:var(--c-committee)"></span>視聴者委員会 / Committee</td>
+            <td><div class="pct-bar"><div class="bar-bg"><div class="bar-fill" style="width:5%;background:var(--c-committee)"></div></div><span class="pct-num">5%</span></div></td>
+            <td>韓国国内の選定委員会による評価</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ⑤ INKIGAYO -->
+  <div class="show-block card" id="show-inkigayo">
+    <div class="show-header">
+      <span class="show-name">INKIGAYO</span>
+      <span class="show-meta">SBS &nbsp;|&nbsp; 日曜 12:10 KST</span>
+    </div>
+    <div class="show-layout">
+      <div class="pie-wrap">
+        <canvas class="pie-canvas" id="pie-ig" width="220" height="220"></canvas>
+      </div>
+      <table class="score-table">
+        <thead><tr><th>項目</th><th>割合</th><th>詳細・注釈</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><span class="cat-dot" style="background:var(--c-streaming)"></span>音源 / Streaming</td>
+            <td><div class="pct-bar"><div class="bar-bg"><div class="bar-fill" style="width:50%;background:var(--c-streaming)"></div></div><span class="pct-num">50%</span></div></td>
+            <td>
+              <strong>Circle Global K-POP Chart + 国内チャート</strong><br>
+              Spotify / Apple Music / YTMusic スミン100%<br>
+              Melon DL60:スミン40 / genie DL50:スミン50 / FLO スミン100%
+              <div class="note">※ 韓国国内は二重カウント（グローバル+国内）されるため有利</div>
+            </td>
+          </tr>
+          <tr>
+            <td><span class="cat-dot" style="background:var(--c-sns)"></span>SNS</td>
+            <td><div class="pct-bar"><div class="bar-bg"><div class="bar-fill" style="width:20%;background:var(--c-sns)"></div></div><span class="pct-num">20%</span></div></td>
+            <td>5番組中最高のSNS比率。Twitter・YouTube等</td>
+          </tr>
+          <tr>
+            <td><span class="cat-dot" style="background:var(--c-physical)"></span>音盤 / Physical CD</td>
+            <td><div class="pct-bar"><div class="bar-bg"><div class="bar-fill" style="width:10%;background:var(--c-physical)"></div></div><span class="pct-num">10%</span></div></td>
+            <td>Circle Chart参照</td>
+          </tr>
+          <tr>
+            <td><span class="cat-dot" style="background:var(--c-broadcast)"></span>放送 / Broadcast</td>
+            <td><div class="pct-bar"><div class="bar-bg"><div class="bar-fill" style="width:10%;background:var(--c-broadcast)"></div></div><span class="pct-num">10%</span></div></td>
+            <td>SBS放送回数</td>
+          </tr>
+          <tr>
+            <td><span class="cat-dot" style="background:var(--c-prevote)"></span>事前投票 / Pre-vote</td>
+            <td><div class="pct-bar"><div class="bar-bg"><div class="bar-fill" style="width:5%;background:var(--c-prevote)"></div></div><span class="pct-num">5%</span></div></td>
+            <td>SBS公式アプリで投票</td>
+          </tr>
+          <tr>
+            <td><span class="cat-dot" style="background:var(--c-livevote)"></span>リアルタイム投票 / Live vote</td>
+            <td><div class="pct-bar"><div class="bar-bg"><div class="bar-fill" style="width:5%;background:var(--c-livevote)"></div></div><span class="pct-num">5%</span></div></td>
+            <td>放送中にSBS公式アプリで投票</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
 </div>
 </section>
 
-<section id="matrix">
+<!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+     有効スミン早見表
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<section id="quick-ref">
 <div class="wrap">
   <div class="sh">
-    <span class="eyebrow">Chapter 02</span>
-    <h2>成績別・有効スミン早見表</h2>
-    <p>同じ「スミン」でも、効くサービスは届けたい成績によって変わります。CD売上・DL数・投票も別途重要。</p>
+    <span class="eyebrow">Platform Effectiveness</span>
+    <h2>有効スミン早見表</h2>
+    <p style="color:var(--ink-soft);font-size:13.5px;margin-top:8px;">
+      各プラットフォームが番組スコアに反映されるかを一覧にまとめました。
+    </p>
   </div>
-  <div class="tablewrap">
-    <table class="matrix">
-      <thead><tr><th>番組／チャート</th><th>Melon・genie・Bugs・FLO等</th><th>Spotify・Apple Music・YTMusic</th><th>LINE MUSIC</th><th>YouTube</th></tr></thead>
+
+  <div style="display:flex;gap:20px;margin-bottom:18px;flex-wrap:wrap;font-size:13px;">
+    <span><span class="eff-full" style="font-size:16px;font-weight:900;">◎</span> スミン有効（ストリーミングで貢献）</span>
+    <span><span style="color:#C09060;font-size:16px;font-weight:900;">△</span> DLのみ有効（ダウンロード購入のみ）</span>
+    <span><span class="eff-none" style="font-size:16px;font-weight:900;color:#aaa;">—</span> 対象外</span>
+  </div>
+
+  <div class="matrix-wrap">
+    <table class="matrix-table card">
+      <thead>
+        <tr>
+          <th>プラットフォーム</th>
+          <th>SHOW<br>CHAMPION</th>
+          <th>M<br>COUNTDOWN</th>
+          <th>Music<br>Bank</th>
+          <th>Music<br>Core</th>
+          <th>INKIGAYO</th>
+        </tr>
+      </thead>
       <tbody>
-        <tr><td>INKIGAYO(インガ)</td><td><span class="ok">✓</span></td><td><span class="ok">✓</span></td><td><span class="ng">✕</span></td><td><span class="ok">✓</span></td></tr>
-        <tr><td>Music Core(ウマチュン)</td><td><span class="ok">✓</span></td><td><span class="ng">✕</span></td><td><span class="ng">✕</span></td><td><span class="ok">✓</span></td></tr>
-        <tr><td>M COUNTDOWN(エムカ)</td><td><span class="ok">✓</span></td><td><span class="ok">✓</span></td><td><span class="ng">✕</span></td><td><span class="ok">✓</span></td></tr>
-        <tr><td>Music Bank(ミューバン)</td><td><span class="ok">✓</span></td><td><span class="ng">✕</span></td><td><span class="ng">✕</span></td><td><span class="ok">✓</span></td></tr>
-        <tr><td>SHOW CHAMPION(ショーチャン)</td><td><span class="ok">✓</span></td><td><span class="ng">✕</span></td><td><span class="ng">✕</span></td><td><span class="ok">✓</span></td></tr>
-        <tr class="split"><td>Billboard JAPAN Hot100</td><td><span class="ng">✕</span></td><td><span class="ok">✓</span></td><td><span class="ok">✓</span></td><td><span class="ok">✓</span></td></tr>
-        <tr><td>ORICON合算ランキング</td><td><span class="ng">✕</span></td><td><span class="ok">✓</span></td><td><span class="ok">✓</span></td><td><span class="ok">✓</span></td></tr>
+        <tr>
+          <td>🇰🇷 Melon</td>
+          <td><span class="eff-full">◎</span><div class="eff-label">DL60 / スミン40</div></td>
+          <td><span class="eff-full">◎</span><div class="eff-label">DL60 / スミン40</div></td>
+          <td><span class="eff-full">◎</span><div class="eff-label">DL60 / スミン40</div></td>
+          <td><span class="eff-full">◎</span><div class="eff-label">DL60 / スミン40</div></td>
+          <td><span class="eff-full">◎</span><div class="eff-label">DL60 / スミン40</div></td>
+        </tr>
+        <tr>
+          <td>🇰🇷 genie</td>
+          <td><span class="eff-full">◎</span><div class="eff-label">DL50 / スミン50</div></td>
+          <td><span class="eff-full">◎</span><div class="eff-label">DL50 / スミン50</div></td>
+          <td><span class="eff-full">◎</span><div class="eff-label">DL50 / スミン50</div></td>
+          <td><span class="eff-full">◎</span><div class="eff-label">DL50 / スミン50</div></td>
+          <td><span class="eff-full">◎</span><div class="eff-label">DL50 / スミン50</div></td>
+        </tr>
+        <tr>
+          <td>🇰🇷 FLO</td>
+          <td><span class="eff-full">◎</span><div class="eff-label">スミン100%</div></td>
+          <td><span class="eff-full">◎</span><div class="eff-label">スミン100%</div></td>
+          <td><span class="eff-full">◎</span><div class="eff-label">スミン100%</div></td>
+          <td><span class="eff-full">◎</span><div class="eff-label">スミン100%</div></td>
+          <td><span class="eff-full">◎</span><div class="eff-label">スミン100%</div></td>
+        </tr>
+        <tr>
+          <td>🇰🇷 Bugs</td>
+          <td><span style="color:#C09060;font-weight:900;">△</span><div class="eff-label">DL80 / スミン20</div></td>
+          <td><span style="color:#C09060;font-weight:900;">△</span><div class="eff-label">DL80 / スミン20</div></td>
+          <td><span style="color:#C09060;font-weight:900;">△</span><div class="eff-label">DL80 / スミン20</div></td>
+          <td><span style="color:#C09060;font-weight:900;">△</span><div class="eff-label">DL80 / スミン20</div></td>
+          <td>—</td>
+        </tr>
+        <tr>
+          <td>🇰🇷 VIBE</td>
+          <td>—</td>
+          <td><span class="eff-full">◎</span><div class="eff-label">スミン100%</div></td>
+          <td><span class="eff-full">◎</span><div class="eff-label">スミン100%</div></td>
+          <td><span class="eff-full">◎</span><div class="eff-label">スミン100%</div></td>
+          <td>—</td>
+        </tr>
+        <tr>
+          <td>🌏 Spotify</td>
+          <td>—</td>
+          <td><span class="eff-full">◎</span><div class="eff-label">Global Chart</div></td>
+          <td>—</td>
+          <td><span class="eff-full">◎</span><div class="eff-label">Circle Digital</div></td>
+          <td><span class="eff-full">◎</span><div class="eff-label">Global Chart</div></td>
+        </tr>
+        <tr>
+          <td>🌏 Apple Music</td>
+          <td>—</td>
+          <td><span class="eff-full">◎</span><div class="eff-label">Global Chart</div></td>
+          <td>—</td>
+          <td><span class="eff-full">◎</span><div class="eff-label">Circle Digital</div></td>
+          <td><span class="eff-full">◎</span><div class="eff-label">Global Chart</div></td>
+        </tr>
+        <tr>
+          <td>🌏 YouTube Music</td>
+          <td>—</td>
+          <td><span class="eff-full">◎</span><div class="eff-label">Global Chart</div></td>
+          <td>—</td>
+          <td>—</td>
+          <td><span class="eff-full">◎</span><div class="eff-label">Global Chart</div></td>
+        </tr>
+        <tr>
+          <td>🇯🇵 LINE MUSIC</td>
+          <td>—</td>
+          <td>—</td>
+          <td>—</td>
+          <td>—</td>
+          <td>—</td>
+        </tr>
+        <tr>
+          <td>📺 YouTube (MV)</td>
+          <td><span class="eff-full">◎</span><div class="eff-label">SNS指数</div></td>
+          <td><span class="eff-full">◎</span><div class="eff-label">SNS指数</div></td>
+          <td><span class="eff-full">◎</span><div class="eff-label">SNS指数</div></td>
+          <td><span class="eff-full">◎</span><div class="eff-label">動画指数</div></td>
+          <td><span class="eff-full">◎</span><div class="eff-label">SNS指数</div></td>
+        </tr>
       </tbody>
     </table>
   </div>
+  <p style="font-size:12.5px;color:var(--ink-soft);margin-top:12px;">※ 比率・対象チャートは番組側の変更により変動する場合があります。最新情報は公式を確認してください。</p>
 </div>
 </section>
 
-<section id="cycle">
-<div class="wrap">
-  <div class="sh">
-    <span class="eyebrow">Chapter 03</span>
-    <h2>集計サイクルと1位決定戦</h2>
-    <p>カムバ翌週から1位獲得が可能。常に「今どの週の集計か」を意識して応援を。</p>
-  </div>
-  <div class="cyclewrap">
-    <div class="cyclestep"><span class="num">01</span><h4>月曜カムバ</h4><p>その週が集計期間1週目スタート</p></div>
-    <div class="cyclestep"><span class="num">02</span><h4>集計期間2週目</h4><p>引き続き月〜日でデータ集計</p></div>
-    <div class="cyclestep"><span class="num">03</span><h4>水曜頃に発表</h4><p>1位決定戦1週目・各番組で結果発表</p></div>
-    <div class="cyclestep"><span class="num">04</span><h4>毎週繰り返し</h4><p>2週分貯めた投票は決定戦のタイミングで使用が効果的</p></div>
-  </div>
-  <div class="order-strip">
-    <span class="chip">SHOW CHAMPION</span><span class="arrow">→</span>
-    <span class="chip">M COUNTDOWN</span><span class="arrow">→</span>
-    <span class="chip">Music Bank</span><span class="arrow">→</span>
-    <span class="chip">Music Core</span><span class="arrow">→</span>
-    <span class="chip">INKIGAYO</span>
-  </div>
-  <div class="infobox">
-    <h4>相対評価のしくみ</h4>
-    各項目は1位が満点を獲得し、それ以外は「1位との差」で点数が決まる。例: MV再生1,000万回・ライバルが500万回なら満点獲得、ライバルが2,000万回(倍)なら獲得点は満点の半分。ミューバンのみ点数分配方式(持ち点を売上順位で分配)を採用。
-  </div>
-</div>
-</section>
-
+<!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+     用語集
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
 <section id="glossary">
 <div class="wrap">
   <div class="sh">
-    <span class="eyebrow">Chapter 04</span>
-    <h2>これだけは覚えたい用語集</h2>
+    <span class="eyebrow">Glossary</span>
+    <h2>用語集</h2>
   </div>
-  <div class="glossgrid">
-    <div class="gloss card"><div class="term">スミン(ST)</div><p>ストリーミングの略。音源スミンとMVスミンがある。</p></div>
-    <div class="gloss card"><div class="term">ミュス(MV)</div><p>MVストリーミングの略。再生数は音源ではなくSNS点数扱い。</p></div>
-    <div class="gloss card"><div class="term">音源成績</div><p>各サブスクの再生数ランキング・チャート成績。MV再生は含まない。</p></div>
-    <div class="gloss card"><div class="term">デジタル</div><p>ストリーミング+DLの総称。音源とほぼ同義で使われる。</p></div>
-    <div class="gloss card"><div class="term">サブスク</div><p>月額課金サービス。Spotify・Apple Music・YouTube等。</p></div>
-    <div class="gloss card"><div class="term">DL(ダウンロード)</div><p>音源購入。チャート上昇の鍵を握る重要指標。</p></div>
-    <div class="gloss card"><div class="term">フィジカル(音盤)</div><p>CD等の実物。アルバム販売数が「音盤成績」として反映。</p></div>
-    <div class="gloss card"><div class="term">韓国音源 / グローバル音源</div><p>韓国=Melon・genie・FLO・Bugs・VIBE。グローバル=Spotify・Apple Music。</p></div>
-    <div class="gloss card"><div class="term">CIRCLE / Billboard / ORICON</div><p>CIRCLE=韓国版指標。Billboard Global200=DL+ST集計。ORICON=CD+DL+STの日本独自総合。</p></div>
+  <div class="glossary-grid">
+    <div class="gloss-item">
+      <span class="gloss-term">音源 / Streaming</span>
+      <p class="gloss-def">デジタル音源。ストリーミング（スミン）とダウンロード（ダウンロード）の両方を指す。音楽番組スコアで最も比重が大きい項目（50〜60%）。</p>
+    </div>
+    <div class="gloss-item">
+      <span class="gloss-term">スミン / Streaming</span>
+      <p class="gloss-def">ストリーミング再生のこと。「スミン」とも呼ばれる。ファンダム用語として活動全体を指すこともある。</p>
+    </div>
+    <div class="gloss-item">
+      <span class="gloss-term">音盤 / Physical CD</span>
+      <p class="gloss-def">フィジカルCD。Circle Chart（出荷ベース）またはHanteo Chart（販売ベース）でカウント。番組によって参照チャートが異なる。</p>
+    </div>
+    <div class="gloss-item">
+      <span class="gloss-term">初動 / First-week sales</span>
+      <p class="gloss-def">リリースから最初の7日間の販売枚数。SHOW CHAMPIONはHanteo（First-week sales）を参照。初動が高いほど物販スコアに有利。</p>
+    </div>
+    <div class="gloss-item">
+      <span class="gloss-term">事前投票 / Pre-vote</span>
+      <p class="gloss-def">放送前に行われる公式アプリ・サイトでの投票。番組によって有効期間や投票場所が異なる。</p>
+    </div>
+    <div class="gloss-item">
+      <span class="gloss-term">リアルタイム投票 / Live vote</span>
+      <p class="gloss-def">放送中のみ有効な投票。M COUNTDOWN・Music Core・INKIGAYOで採用。放送時間に合わせて投票することが重要。</p>
+    </div>
+    <div class="gloss-item">
+      <span class="gloss-term">放送 / Broadcast</span>
+      <p class="gloss-def">各局の音楽番組への出演・放送回数によるポイント。事務所側のブッキング次第で変動するため、ファンが直接コントロールしにくい項目。</p>
+    </div>
+    <div class="gloss-item">
+      <span class="gloss-term">Circle Chart</span>
+      <p class="gloss-def">韓国の主要音楽チャート。国内（Domestic Digital）とグローバル（Global K-POP）の2種類があり、番組によって参照するチャートが異なる。</p>
+    </div>
+    <div class="gloss-item">
+      <span class="gloss-term">Hanteo Chart</span>
+      <p class="gloss-def">Hanteo加盟店での実販売数をリアルタイム集計するチャート。SHOW CHAMPIONの物販スコアに使用。Weverse Shop・ユニバ・タワレコが対応店舗。</p>
+    </div>
+    <div class="gloss-item">
+      <span class="gloss-term">ダウンロード / Download</span>
+      <p class="gloss-def">デジタル楽曲の購入（ダウンロード）。特にBugsはDLの比重が高い（DL80:スミン20）ため、ストリーミングよりDL購入の方がスコアへの貢献が大きい。</p>
+    </div>
+    <div class="gloss-item">
+      <span class="gloss-term">相対評価 / Relative Scoring</span>
+      <p class="gloss-def">全番組で採用されているスコア方式。1位アーティストが満点を取り、他は相対的に計算される。ライバルアーティストの数字も重要。</p>
+    </div>
+    <div class="gloss-item">
+      <span class="gloss-term">二重カウント / Double count</span>
+      <p class="gloss-def">INKIGAYOで採用。韓国国内のストリーミングは「グローバルチャート」と「国内チャート」の両方にカウントされるため、国内ストリーミングが特に有利になる現象。</p>
+    </div>
   </div>
 </div>
 </section>
 
-<script>
-const donuts=document.querySelectorAll('.donut');
-const obs=new IntersectionObserver(entries=>{
-  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target);}});
-},{threshold:0.3});
-donuts.forEach(d=>obs.observe(d));
-</script>
+</main>
 
-
-<footer>
-<div class="wrap">
-
-<p style="margin-top:14px;">本ページは ACT: STREAMING PROJECT TEAM の資料をもとに、個人の参照用として整理したものです。最新情報は必ず公式をご確認ください。</p>
-</div>
-</footer>
 <button class="btt" id="btt" aria-label="ページ上部へ戻る">↑</button>
-<script>
-const btt=document.getElementById('btt');
-window.addEventListener('scroll',()=>btt.classList.toggle('show',scrollY>500));
-btt.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
-// nav active
-const navLinks=[...document.querySelectorAll('.sitenav a')];
-const obs=new IntersectionObserver(entries=>{
-  entries.forEach(e=>{
-    const link=document.querySelector('.sitenav a[href="#'+e.target.id+'"]');
-    if(link){navLinks.forEach(l=>l.classList.remove('active'));if(e.isIntersecting)link.classList.add('active');}
-  });
-},{rootMargin:'-40% 0px -50% 0px'});
-document.querySelectorAll('section[id]').forEach(s=>obs.observe(s));
-</script>
 
+<script>
+// ── 円グラフ描画（スライス内ラベル付き） ────────────────────
+const CSS = getComputedStyle(document.documentElement);
+const COLORS = {
+  streaming: CSS.getPropertyValue('--c-streaming').trim(),
+  physical:  CSS.getPropertyValue('--c-physical').trim(),
+  prevote:   CSS.getPropertyValue('--c-prevote').trim(),
+  livevote:  CSS.getPropertyValue('--c-livevote').trim(),
+  broadcast: CSS.getPropertyValue('--c-broadcast').trim(),
+  sns:       CSS.getPropertyValue('--c-sns').trim(),
+  video:     CSS.getPropertyValue('--c-video').trim(),
+  committee: CSS.getPropertyValue('--c-committee').trim(),
+};
+
+const SHOWS = [
+  {
+    id: 'sc',
+    slices: [
+      { label:'Streaming', pct:35, color:COLORS.streaming },
+      { label:'Pre-vote',  pct:20, color:COLORS.prevote },
+      { label:'Broadcast', pct:20, color:COLORS.broadcast },
+      { label:'CD',        pct:15, color:COLORS.physical },
+      { label:'SNS',       pct:10, color:COLORS.sns },
+    ]
+  },
+  {
+    id: 'mc',
+    slices: [
+      { label:'Streaming', pct:50, color:COLORS.streaming },
+      { label:'SNS',       pct:15, color:COLORS.sns },
+      { label:'CD',        pct:15, color:COLORS.physical },
+      { label:'Pre-vote',  pct:10, color:COLORS.prevote },
+      { label:'Broadcast', pct:10, color:COLORS.broadcast },
+    ]
+  },
+  {
+    id: 'mb',
+    slices: [
+      { label:'Streaming', pct:60, color:COLORS.streaming },
+      { label:'Broadcast', pct:20, color:COLORS.broadcast },
+      { label:'Pre-vote',  pct:10, color:COLORS.prevote },
+      { label:'CD',        pct:5,  color:COLORS.physical },
+      { label:'SNS',       pct:5,  color:COLORS.sns },
+    ]
+  },
+  {
+    id: 'mcore',
+    slices: [
+      { label:'Streaming',   pct:50, color:COLORS.streaming },
+      { label:'Video',       pct:10, color:COLORS.video },
+      { label:'CD',          pct:10, color:COLORS.physical },
+      { label:'Broadcast',   pct:10, color:COLORS.broadcast },
+      { label:'App vote',    pct:5,  color:COLORS.livevote },
+      { label:'SMS vote',    pct:5,  color:COLORS.livevote },
+      { label:'Global vote', pct:5,  color:COLORS.prevote },
+      { label:'Committee',   pct:5,  color:COLORS.committee },
+    ]
+  },
+  {
+    id: 'ig',
+    slices: [
+      { label:'Streaming', pct:50, color:COLORS.streaming },
+      { label:'SNS',       pct:20, color:COLORS.sns },
+      { label:'CD',        pct:10, color:COLORS.physical },
+      { label:'Broadcast', pct:10, color:COLORS.broadcast },
+      { label:'Pre-vote',  pct:5,  color:COLORS.prevote },
+      { label:'Live vote', pct:5,  color:COLORS.livevote },
+    ]
+  },
+];
+
+function drawPie(canvasId, slices) {
+  const canvas = document.getElementById(canvasId);
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width, H = canvas.height;
+  const cx = W / 2, cy = H / 2;
+  const r = cx - 28; // スライス半径（外側にラベルスペース）
+  let start = -Math.PI / 2;
+
+  slices.forEach(s => {
+    const angle = (s.pct / 100) * 2 * Math.PI;
+    const mid = start + angle / 2;
+
+    // スライス描画
+    ctx.beginPath();
+    ctx.moveTo(cx, cy);
+    ctx.arc(cx, cy, r, start, start + angle);
+    ctx.closePath();
+    ctx.fillStyle = s.color;
+    ctx.fill();
+    ctx.strokeStyle = '#fff';
+    ctx.lineWidth = 2.5;
+    ctx.stroke();
+
+    // ラベル位置の決定
+    const THRESHOLD = 10; // この%以下は外側ラベル
+    if (s.pct >= THRESHOLD) {
+      // スライス内ラベル（白文字）
+      const lr = r * 0.65;
+      const lx = cx + Math.cos(mid) * lr;
+      const ly = cy + Math.sin(mid) * lr;
+      ctx.fillStyle = '#fff';
+      ctx.font = 'bold 11px "JetBrains Mono", monospace';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(s.pct + '%', lx, ly - 7);
+      ctx.font = '9.5px "Zen Kaku Gothic New", sans-serif';
+      ctx.fillText(s.label, lx, ly + 6);
+    } else {
+      // 外側ラベル（引き出し線付き）
+      const innerR = r;
+      const outerR = r + 14;
+      const ix = cx + Math.cos(mid) * innerR;
+      const iy = cy + Math.sin(mid) * innerR;
+      const ox = cx + Math.cos(mid) * outerR;
+      const oy = cy + Math.sin(mid) * outerR;
+      // 引き出し線
+      ctx.beginPath();
+      ctx.moveTo(ix, iy);
+      ctx.lineTo(ox, oy);
+      ctx.strokeStyle = s.color;
+      ctx.lineWidth = 1.5;
+      ctx.stroke();
+      // 外側テキスト
+      const tx = cx + Math.cos(mid) * (outerR + 2);
+      const ty = cy + Math.sin(mid) * (outerR + 2);
+      ctx.fillStyle = '#1C2B45';
+      ctx.font = 'bold 9.5px "JetBrains Mono", monospace';
+      ctx.textAlign = Math.cos(mid) > 0 ? 'left' : 'right';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(s.pct + '% ' + s.label, tx, ty);
+    }
+
+    start += angle;
+  });
+}
+
+SHOWS.forEach(s => drawPie('pie-' + s.id, s.slices));
+
+// btt
+const btt = document.getElementById('btt');
+window.addEventListener('scroll', () => btt.classList.toggle('show', scrollY > 500));
+btt.addEventListener('click', () => window.scrollTo({top:0,behavior:'smooth'}));
+</script>
 </body>
 </html>
