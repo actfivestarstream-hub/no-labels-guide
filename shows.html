@@ -758,6 +758,22 @@ function drawPie(canvasId, slices) {
   });
 }
 
+// GAS形式リンクをGitHub Pagesの実ファイルへ振り替え
+// ?page=xxx -> xxx.html / ? と ?#xxx -> index.html(+アンカー)
+// 将来GAS移行時はこのブロックを外すだけでOK
+(function(){
+  if(typeof google!=='undefined'&&google.script)return; // GAS環境では何もしない
+  document.querySelectorAll('a[href^="?"]').forEach(a=>{
+    const h=a.getAttribute('href');
+    let m;
+    if(m=h.match(/^\?page=([^#&]+)(.*)$/)){
+      a.setAttribute('href',m[1]+'.html'+(m[2]||''));
+    }else{ // "?" または "?#anchor"
+      const hash=h.indexOf('#')>=0?h.slice(h.indexOf('#')):'';
+      a.setAttribute('href','index.html'+hash);
+    }
+  });
+})();
 SHOWS.forEach(s => drawPie('pie-' + s.id, s.slices));
 // 画面幅が変わったら線幅調整のため再描画
 let _pieT;

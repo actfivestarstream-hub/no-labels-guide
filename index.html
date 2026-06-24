@@ -768,9 +768,15 @@ document.querySelectorAll('section[id]').forEach(s=>obs.observe(s));
 // 将来GASへ移行する際はこのブロックを外すだけでOK。
 (function(){
   if(typeof google!=='undefined'&&google.script)return; // GAS環境では何もしない
-  document.querySelectorAll('a[href^="?page="]').forEach(a=>{
-    const m=a.getAttribute('href').match(/^\?page=([^#&]+)(.*)$/);
-    if(m)a.setAttribute('href',m[1]+'.html'+(m[2]||''));
+  document.querySelectorAll('a[href^="?"]').forEach(a=>{
+    const h=a.getAttribute('href');
+    let m;
+    if(m=h.match(/^\?page=([^#&]+)(.*)$/)){
+      a.setAttribute('href',m[1]+'.html'+(m[2]||''));
+    }else{ // "?" または "?#anchor"
+      const hash=h.indexOf('#')>=0?h.slice(h.indexOf('#')):'';
+      a.setAttribute('href','index.html'+hash);
+    }
   });
 })();
 </script>
