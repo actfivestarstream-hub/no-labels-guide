@@ -712,7 +712,7 @@ function drawPie(canvasId, slices) {
     ctx.fillStyle = s.color;
     ctx.fill();
     ctx.strokeStyle = '#fff';
-    ctx.lineWidth = 2.5;
+    ctx.lineWidth = window.matchMedia('(max-width:600px)').matches ? 0.8 : 1.5;
     ctx.stroke();
 
     // ラベル位置の決定
@@ -759,6 +759,9 @@ function drawPie(canvasId, slices) {
 }
 
 SHOWS.forEach(s => drawPie('pie-' + s.id, s.slices));
+// 画面幅が変わったら線幅調整のため再描画
+let _pieT;
+window.addEventListener('resize',()=>{clearTimeout(_pieT);_pieT=setTimeout(()=>{SHOWS.forEach(s => drawPie('pie-' + s.id, s.slices));},150);});
 
 // btt
 const btt = document.getElementById('btt');
