@@ -474,6 +474,13 @@ table.releases tr.yj-row td{font-weight:700;}
 </div>
 </section>
 
+<!-- ── EMBEDDED SHOWS PAGE ── -->
+<section id="shows-embed" style="padding:0;border-bottom:1px solid var(--line);">
+  <iframe src="shows.html" title="音楽番組の仕組み"
+    style="width:100%;border:none;display:block;min-height:100vh;"
+    loading="lazy"></iframe>
+</section>
+
 <!-- ── LINK CARDS ── -->
 <section class="guides-section">
 <div class="wrap">
@@ -778,6 +785,23 @@ document.querySelectorAll('section[id]').forEach(s=>obs.observe(s));
       a.setAttribute('href','index.html'+hash);
     }
   });
+})();
+</script>
+
+<script>
+/* shows.html iframe を中身の高さに自動調整（同一オリジン） */
+(function(){
+  var f=document.querySelector('#shows-embed iframe');
+  if(!f) return;
+  function fit(){
+    try{
+      var d=f.contentWindow.document;
+      var h=Math.max(d.body.scrollHeight,d.documentElement.scrollHeight);
+      if(h) f.style.height=h+'px';
+    }catch(e){/* クロスオリジン時は min-height にフォールバック */}
+  }
+  f.addEventListener('load',function(){fit();setTimeout(fit,400);});
+  window.addEventListener('resize',fit);
 })();
 </script>
 
